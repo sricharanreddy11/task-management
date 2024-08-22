@@ -1,0 +1,17 @@
+<div class="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+  <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Dashboard</h2>
+  <div class="grid grid-cols-3 gap-4">
+    <div class="p-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+      <h3 class="text-lg font-semibold">Total Tasks</h3>
+      <p class="text-3xl font-bold">{{ totalTasks }}</p>
+    </div>
+    <div class="p-4 bg-gradient-to-r from-teal-500 to-green-500 text-white rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+      <h3 class="text-lg font-semibold">Completed Tasks</h3>
+      <p class="text-3xl font-bold">{{ completedTasks }}</p>
+    </div>
+    <div class="p-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-lg shadow-lg transform hover:scale-105 transition-transform">
+      <h3 class="text-lg font-semibold">Pending Tasks</h3>
+      <p class="text-3xl font-bold">{{ pendingTasks }}</p>
+    </div>
+  </div>
+</div>

@@ -4,8 +4,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AuthenticatorComponent } from './authenticator/authenticator.component';
 import { AuthGuard } from './authenticator/authenticator.guard';
 import { AppGuard } from './app.guard';
-import { DevComponent } from './dev/dev.component';
 import { routes as DevRoutes } from './dev/dev.routes';
+import { DevComponent } from './dev/dev.component';
 
 export const routes: Routes = [
     {
