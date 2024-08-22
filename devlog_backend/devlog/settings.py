@@ -29,12 +29,13 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env_local'))
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-669&$xx3b3z8=5m0t=%3@c%+o4-4m@(40in)pj_h)*r=0^dt5m'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env("DEBUG")
+ENVIRONMENT = env('ENVIRONMENT')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.vercel.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -90,8 +91,12 @@ WSGI_APPLICATION = 'devlog.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT')
     }
 }
 
@@ -132,7 +137,6 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers)
-
 
 
 # Static files (CSS, JavaScript, Images)

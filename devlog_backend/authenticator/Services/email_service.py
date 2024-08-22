@@ -9,6 +9,7 @@ from django.core.validators import validate_email
 
 from authenticator.Services.communication_channel import CommunicationChannel
 from authenticator.constants import Defaults
+from devlog.settings import env
 
 
 class EmailService(CommunicationChannel):
@@ -93,7 +94,7 @@ class EmailService(CommunicationChannel):
         res, error = self.validate()
         if not res:
             return False, error
-        otp_subject = "Chit Funds Management Made Easier"
+        otp_subject = "Dev Tasks Made Easier"
         body_msg = MIMEText(
             f"Dear {user_name},<br><br>{otp} is your verification code "
             f"Required to verify your account. "
@@ -111,9 +112,9 @@ class EmailService(CommunicationChannel):
             {
                 'server': 'smtp.gmail.com',
                 'port': 587,
-                'username': 'noreply.alertabandonedbag@gmail.com',
-                'password': 'umtquekarfsoaudi',
-                'from_mail': 'noreply.alertabandonedbag@gmail.com'
+                'username': env('MAIL_USERNAME'),
+                'password': env('MAIL_PASSWORD'),
+                'from_mail': env('FROM_MAIL')
             },
         ]
         for email in emails_conf_dict:

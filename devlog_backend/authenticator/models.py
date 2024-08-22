@@ -18,17 +18,6 @@ class User(AbstractUser):
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
     meta_data = models.JSONField(null=True, blank=True)
 
-    groups = models.ManyToManyField(
-        Group,
-        related_name='custom_groups',
-        blank=True
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name='custom_permissions',
-        blank=True
-    )
-
     class Meta:
         db_table = 'user'
 
