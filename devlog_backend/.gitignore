@@ -1,0 +1,9 @@
+{\rtf1}
+
+# JetBrains IDE
+.idea/
+.pytest_cache/
+static/
+**/__pycache__/
+.env_local
+../devlog_frontend
