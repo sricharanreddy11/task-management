@@ -10,7 +10,8 @@ export class AuthInterceptor implements HttpInterceptor {
     constructor(private cookieService: CookieService, private authService: AuthenticatorService) { }
     intercept(req: HttpRequest<any>,
         next: HttpHandler): Observable<HttpEvent<any>> {
-        if (!(this.cookieService.get("is_authenticated") === 'true')) {
+
+        if (req.url.includes('auth/api/token/refresh/')) {
             return next.handle(req);
         }
         

@@ -45,28 +45,39 @@ export class AuthenticatorService {
     })
   }
 
-  private setSession(access_token: string) {
+  private setSession(access_token: string, refresh_token: string = "") {
     const expirationDate = this.jwtService.getTokenExpirationDate(access_token);
     const cookieOptions = { path: this.cookiePath };
 
     this.cookieService.set('expires_at', expirationDate!.toISOString(), cookieOptions);
     this.cookieService.set('access_token', access_token, cookieOptions);
+    this.cookieService.set('refresh_token', refresh_token, cookieOptions);
     this.cookieService.set('is_authenticated', 'true', cookieOptions);
   }
 
   refreshToken(refresh_token: string): Observable<any> {
-    return this.httpClient.post(this.apiUrl + 'auth/token/refresh/', {
-      refresh_token: refresh_token,
+
+    console.log("started refreshing the token")
+
+    const cookieOptions = { path: this.cookiePath };
+
+    return this.httpClient.post(this.apiUrl + 'auth/api/token/refresh/', {
+      refresh: refresh_token,
     }).pipe(
       tap((response: any) => {
-        this.setSession(response.access_token);
+        this.cookieService.set('access_token', response.access, cookieOptions);
       })
     );
   }
 
   checkTokenExpiry() {
+
     const token = this.cookieService.get('access_token');
     const refreshToken = this.cookieService.get('refresh_token');
+
+    if(token === ""){
+      return
+    }
   
     if (this.jwtService.isTokenExpired(token)) {
       if (this.jwtService.isTokenExpired(refreshToken)) {
@@ -85,7 +96,7 @@ export class AuthenticatorService {
 }
 
   loginUser(access_token: string, refresh_token: string) {
-    this.setSession(access_token);
+    this.setSession(access_token, refresh_token);
   }
 
   logout(){      

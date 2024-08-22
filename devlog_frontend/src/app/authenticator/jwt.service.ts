@@ -15,7 +15,7 @@ export class JwtService {
     const decoded = this.decodeToken(token);
     if (!decoded || !decoded.exp) {
       console.warn('Invalid token or token does not have an expiration date.');
-      return null; // Return null if the token is invalid or doesn't have an expiration date
+      return null;
     }
     return new Date(decoded.exp * 1000);
   }

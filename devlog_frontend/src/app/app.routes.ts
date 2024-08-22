@@ -1,16 +1,16 @@
 import { Routes } from '@angular/router';
 import { routes as authRoutes } from './authenticator/authenticator.routes';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { routes as cfmRoutes } from './cfm/cfm.routes';
 import { AuthenticatorComponent } from './authenticator/authenticator.component';
-import { AppGuard } from './app.guard';
 import { AuthGuard } from './authenticator/authenticator.guard';
-import { CfmComponent } from './cfm/cfm.component';
+import { AppGuard } from './app.guard';
+import { DevComponent } from './dev/dev.component';
+import { routes as DevRoutes } from './dev/dev.routes';
 
 export const routes: Routes = [
     {
         path: '',
-        redirectTo: 'cfm',
+        redirectTo: 'dev',
         pathMatch: "full"
     },
     {
@@ -20,9 +20,9 @@ export const routes: Routes = [
         canActivate: [AuthGuard]
     },
     {
-        path: 'cfm',
-        component: CfmComponent,
-        children: cfmRoutes,
+        path: 'dev',
+        component: DevComponent,
+        children: DevRoutes,
         canActivate: [AppGuard]
     },
     { 

@@ -116,7 +116,7 @@ export class OtpComponent implements OnInit, OnDestroy {
             requestData.refresh
           )
           this.authService.otpSent = false;
-          this.router.navigate(['/cfm/dashboard']);
+          this.router.navigate(['']);
           this.isLoading = false;
         },
         error => {
