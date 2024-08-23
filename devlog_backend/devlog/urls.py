@@ -23,7 +23,6 @@ from task_management.urls import urlpatterns as tasks_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include(auth_urls)),
+    path('log/', include(notes_urls)),
+    path('track/', include(tasks_urls))
 ]
-
-urlpatterns += notes_urls
-urlpatterns += tasks_urls

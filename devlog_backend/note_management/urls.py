@@ -7,5 +7,5 @@ router.register(r'notes', NoteViewSet, basename='note')
 router.register(r'tags', TagViewSet, basename='tag')
 
 urlpatterns = [
-    path('/', include(router.urls)),
+    path('', include(router.urls)),
 ]
