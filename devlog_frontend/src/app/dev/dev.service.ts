@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { environment } from "../../environments/environment.development";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Note } from "./note-maker/note.model";
 
@@ -12,8 +12,26 @@ export class DevAPIService{
     private httpClient = inject(HttpClient);
 
 
-    getTaskList(): Observable<any> {
-        return this.httpClient.get(this.apiUrl + 'track/tasks/');
+    getTaskList(paramsObj?: { [key: string]: any }): Observable<any> {
+        let params = new HttpParams();
+
+        if (paramsObj) {
+            Object.keys(paramsObj).forEach(key => {
+                params = params.set(key, paramsObj[key]);
+            });
+        }
+
+        return this.httpClient.get(this.apiUrl + 'track/tasks/', { params });
+    }
+
+    getTaskCount(): Observable<any> {
+
+        return this.httpClient.get(this.apiUrl + 'track/tasks/counts');
+    }
+
+    getTaskGraphData(): Observable<any> {
+
+        return this.httpClient.get(this.apiUrl + 'track/tasks/graph-data');
     }
 
     createTask(formData: any): Observable<any> {

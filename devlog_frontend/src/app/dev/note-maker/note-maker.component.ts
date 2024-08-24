@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Note } from './note.model';
 import { DevAPIService } from '../dev.service';
@@ -64,6 +64,14 @@ export class NoteMakerComponent implements OnInit {
           console.error('Error saving note:', error);
         }
       );
+    }
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.ctrlKey && event.key === 's') {
+      event.preventDefault();
+      this.saveNote();
     }
   }
 

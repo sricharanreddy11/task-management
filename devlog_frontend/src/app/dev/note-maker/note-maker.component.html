@@ -37,15 +37,15 @@
           class="w-full mb-4 p-2 bg-gray-50 text-gray-800 text-lg font-semibold border-b border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700"
           placeholder="Note Title"
         />
-        <div 
+        <textarea 
           contenteditable="true"
           [(ngModel)]="selectedNote.content"
           (blur)="saveNote()"
-          class="rich-text-editor w-full p-4 bg-gray-50 text-gray-800 border border-gray-300 rounded-lg shadow-inner overflow-y-auto dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700"
+          class="rich-text-editor w-full p-4 bg-gray-50 text-gray-800 border border-gray-300 rounded-lg shadow-inner overflow-y-auto dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700 scrollbar"
           style="min-height: 500px; max-height: 500px;"
           placeholder="Write your note here..."
           spellcheck="true"
-        ></div>
+        ></textarea>
       </div>
     </div>
     </div>  

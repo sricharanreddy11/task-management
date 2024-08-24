@@ -6,6 +6,8 @@ import { AlertsComponent } from './alerts/alerts.component';
 import { ProjectComponent } from './projects/project/project.component';
 import { SettingsComponent } from './settings/settings.component';
 import { NoteMakerComponent } from './note-maker/note-maker.component';
+import { AssistantComponent } from './assistant/assistant.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
     {
@@ -34,11 +36,19 @@ export const routes: Routes = [
         component: AlertsComponent,
     },
     {
-        path: 'settings',
-        component: SettingsComponent,
-    },
-    {
         path: 'note-maker',
         component: NoteMakerComponent,
+    },
+    {
+        path: 'assistant',
+        component: AssistantComponent,
+    },
+    {
+        path: 'profile',
+        component: ProfileComponent,
+    },
+    {
+        path: 'settings',
+        component: SettingsComponent,
     },
 ];
