@@ -7,6 +7,7 @@ import { AppGuard } from './app.guard';
 import { routes as DevRoutes } from './dev/dev.routes';
 import { DevComponent } from './dev/dev.component';
 
+
 export const routes: Routes = [
     {
         path: '',

@@ -1,4 +1,4 @@
-import { inject, Inject, Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { environment } from "../../environments/environment.development";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
@@ -25,8 +25,14 @@ export class DevAPIService{
 
     getProjectList(): Observable<any>{
         return this.httpClient.get(this.apiUrl + 'track/projects/');
-    } 
+    }
+    
+    getProjectDetail(id: string): Observable<any>{
+        return this.httpClient.get(this.apiUrl + 'track/projects/' + id + '/');
+    }
 
-
+    createProject(formData: any) {
+        return this.httpClient.post(this.apiUrl + 'track/projects/',formData);
+      }
 
 }

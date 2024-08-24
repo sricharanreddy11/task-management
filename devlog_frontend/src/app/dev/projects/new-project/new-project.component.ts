@@ -4,16 +4,17 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { DevAPIService } from '../../dev.service';
 
 @Component({
-  selector: 'app-new-task',
+  selector: 'app-new-project',
   standalone: true,
   imports: [ModalComponent, ReactiveFormsModule],
-  templateUrl: './new-task.component.html',
-  styleUrl: './new-task.component.css'
+  templateUrl: './new-project.component.html',
+  styleUrl: './new-project.component.css'
 })
-export class NewTaskComponent {
+export class NewProjectComponent {
+  
   @ViewChild('modal') modalComponent!: ModalComponent;
 
-  taskForm!: FormGroup;
+  projectForm!: FormGroup;
   projects: any[] = [];
 
   constructor(
@@ -23,20 +24,13 @@ export class NewTaskComponent {
 
   ngOnInit(): void {
     // Initialize form
-    this.taskForm = this.fb.group({
-      title: ['', Validators.required],
-      status: ['', Validators.required],
-      due_date: ['', Validators.required],
-      priority: ['', Validators.required],
-      project: ['', Validators.required],
+    this.projectForm = this.fb.group({
+      name: ['', Validators.required],
+      start_date: ['', Validators.required],
+      end_date: ['', Validators.required],
       description: ['']
     });
 
-    // Fetch projects
-    this.devAPIService.getProjectList().subscribe((data: any[]) => {
-      console.log(data)
-      this.projects = data;
-    });
   }
 
   openForm() {
@@ -44,14 +38,14 @@ export class NewTaskComponent {
   }
 
   onSubmit() {
-    if (this.taskForm.valid) {
+    if (this.projectForm.valid) {
 
-      const formData = this.taskForm.value;
+      const formData = this.projectForm.value;
       console.log('Form Data:', formData);
 
       // Call the service to post data
-      this.devAPIService.createTask(formData).subscribe(response => {
-        console.log('Task Created:', response);
+      this.devAPIService.createProject(formData).subscribe(response => {
+        console.log('Project Created:', response);
       });
 
       this.modalComponent.closeModal(); // Close modal after submission

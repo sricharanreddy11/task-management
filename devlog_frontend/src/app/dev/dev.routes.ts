@@ -3,6 +3,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TasksComponent } from './tasks/tasks.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { AlertsComponent } from './alerts/alerts.component';
+import { ProjectComponent } from './projects/project/project.component';
+import { SettingsComponent } from './settings/settings.component';
 
 export const routes: Routes = [
     {
@@ -22,8 +24,16 @@ export const routes: Routes = [
         path: 'projects',
         component: ProjectsComponent,
     },
+    { 
+        path: 'projects/:id',
+         component: ProjectComponent
+    },
     {
         path: 'alerts',
         component: AlertsComponent,
-    }
+    },
+    {
+        path: 'settings',
+        component: SettingsComponent,
+    },
 ];

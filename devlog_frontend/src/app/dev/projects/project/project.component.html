@@ -1,0 +1,50 @@
+<div class="flex h-full bg-gray-50 dark:bg-gray-900">
+  
+    <!-- Project Details -->
+    <div class="flex-1 p-6 border-r border-gray-200 dark:border-gray-700 shadow-lg bg-white dark:bg-gray-800">
+      <h2 class="text-3xl font-bold mb-4 text-blue-600 dark:text-blue-400">Project Details</h2>
+          <!-- Sidebar Back Link -->
+        <div class="my-5">
+        <a [routerLink]="['/dev/projects']" routerLinkActive="router-link-active"  class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to List
+        </a>
+      </div>
+      <div class="p-6 border-r border-gray-200 dark:border-gray-700 shadow-lg bg-white dark:bg-gray-800 rounded-lg">
+
+        <!-- Project Name -->
+        <p class="text-2xl font-bold text-gray-800 dark:text-gray-300 mb-4">{{ project.name }}</p>
+      
+        <!-- Project Description -->
+        <h3 class="text-lg mb-2">Description</h3>
+        <p class="text-gray-600 dark:text-gray-400 mb-6">{{ project.description }}</p>
+      
+        <!-- Project Dates -->
+        <div>
+          <h3 class="text-lg mb-2">Timeline</h3>
+          <p class="text-gray-700 dark:text-gray-400">Start Date: <span class="font-medium">{{ project.start_date | date }}</span></p>
+          <p class="text-gray-700 dark:text-gray-400">End Date: <span class="font-medium">{{ project.end_date | date }}</span></p>
+        </div>
+      </div>
+      
+    </div>
+  
+    <!-- Tasks Section -->
+    <div class="flex-1 p-6 bg-white dark:bg-gray-800 shadow-lg">
+      <h2 class="text-3xl font-bold mb-4 text-blue-600 dark:text-blue-400">Tasks</h2>
+      <ul class="space-y-4 max-h-[calc(100vh-150px)] custom-scrollbar">
+        <li *ngFor="let task of project.tasks" class="border border-gray-200 dark:border-gray-700 p-4 rounded-lg transform transition-transform duration-300 hover:scale-105 bg-gray-100 dark:bg-gray-700">
+          <h3 class="text-xl font-semibold mb-2 text-indigo-600 dark:text-indigo-400">{{ task.title }}</h3>
+          <p class="text-gray-700 dark:text-gray-300">{{ task.description }}</p>
+          <div class="mt-4">
+            <p class="text-gray-700 dark:text-gray-300">Due Date: {{ task.due_date | date }}</p>
+            <p class="text-gray-700 dark:text-gray-300">Status: {{ task.status | statuspipe }}</p>
+            <p class="text-gray-700 dark:text-gray-300">Priority: {{ task.priority | prioritypipe }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  

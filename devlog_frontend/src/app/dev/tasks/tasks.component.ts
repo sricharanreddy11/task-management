@@ -40,7 +40,7 @@ export class TasksComponent {
       (resData) =>{
         console.log(resData)
         console.log("Task Completed")
-        window.location.reload()
+        this.ngOnInit()
       },
       (error) => {
         console.error('Error updating task', error);
