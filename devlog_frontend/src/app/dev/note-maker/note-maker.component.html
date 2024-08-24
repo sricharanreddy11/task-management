@@ -1,1 +1,51 @@
-<p>note-maker works!</p>
+<div class="flex h-screen bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
+    <!-- Sidebar -->
+    <div class="w-1/4 bg-gray-50 border-r border-gray-700 dark:bg-gray-800 dark:border-gray-700">
+      <div class="px-4 py-2 flex items-center justify-between bg-gray-50 text-gray-800 dark:text-gray-50 dark:bg-gray-700">
+        <h2 class="text-lg font-semibold">All Notes</h2>
+        <button (click)="addNewNote()" class="text-gray-400 hover:text-gray-300 focus:outline-none">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+          </svg>
+        </button>
+      </div>
+      <input
+        type="text"
+        placeholder="Search all notes and tags"
+        class="w-full p-2 bg-gray-50 text-gray-800 border-b border-gray-700 placeholder-gray-400 dark:bg-gray-800 dark:border-gray-700"
+      />
+      <ul class="overflow-y-auto">
+        <!-- List of notes -->
+        <li
+          *ngFor="let note of notes"
+          class="p-4 border-b border-gray-50 hover:bg-gray-100 cursor-pointer dark:border-gray-700 dark:hover:bg-gray-700"
+          (click)="selectNote(note)"
+        >
+          <div class="font-semibold">{{ note.title }}</div>
+          <div class="text-sm text-gray-400 dark:text-gray-400">{{ note.content.substring(0, 30) }}...</div>
+        </li>
+      </ul>
+    </div>
+  
+    <!-- Main Content -->
+    <div class="flex-1 p-4 bg-gray-50 text-gray-800 dark:bg-gray-900">
+      <div *ngIf="selectedNote">
+        <input
+          type="text"
+          [(ngModel)]="selectedNote.title"
+          (blur)="saveNote()"
+          class="w-full mb-4 p-2 bg-gray-50 text-gray-800 text-lg font-semibold border-b border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700"
+          placeholder="Note Title"
+        />
+        <div 
+          contenteditable="true"
+          [(ngModel)]="selectedNote.content"
+          (blur)="saveNote()"
+          class="rich-text-editor w-full p-4 bg-gray-50 text-gray-800 border border-gray-300 rounded-lg shadow-inner overflow-y-auto dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700"
+          style="min-height: 500px; max-height: 500px;"
+          placeholder="Write your note here..."
+          spellcheck="true"
+        ></div>
+      </div>
+    </div>
+    </div>  

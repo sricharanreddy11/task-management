@@ -5,6 +5,7 @@ import { ProjectsComponent } from './projects/projects.component';
 import { AlertsComponent } from './alerts/alerts.component';
 import { ProjectComponent } from './projects/project/project.component';
 import { SettingsComponent } from './settings/settings.component';
+import { NoteMakerComponent } from './note-maker/note-maker.component';
 
 export const routes: Routes = [
     {
@@ -35,5 +36,9 @@ export const routes: Routes = [
     {
         path: 'settings',
         component: SettingsComponent,
+    },
+    {
+        path: 'note-maker',
+        component: NoteMakerComponent,
     },
 ];
