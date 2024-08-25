@@ -1,1 +1,40 @@
-<p>profile works!</p>
+@if(currentUserData){
+    <div class="bg-white dark:bg-gray-800 my-10 p-6 rounded-lg shadow-lg w-3/4 mx-auto">
+        <h1 class="text-2xl font-bold mb-6 text-center dark:text-white">User Profile</h1>
+      
+        <div class="flex items-center mb-4">
+          <div class="flex-shrink-0 mr-4">
+            <div class="h-24 w-24 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+              <span class="text-3xl font-bold text-gray-400 dark:text-gray-500">
+                {{ currentUserData.username.charAt(0).toUpperCase() }}
+              </span>
+            </div>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold dark:text-white">{{ currentUserData.username }}</h2>
+            <p class="text-gray-600 dark:text-gray-300">{{ currentUserData.email }}</p>
+            <p class="text-gray-600 dark:text-gray-300">
+              Member since: {{ currentUserData.date_joined | date:'longDate' }}
+            </p>
+          </div>
+        </div>
+      
+        <div class="border-t border-gray-300 dark:border-gray-600 pt-4 mt-4">
+          <h3 class="text-lg font-bold mb-2 dark:text-white">Details</h3>
+          <ul class="text-gray-600 dark:text-gray-300">
+            <li><strong>Designation:</strong> {{ currentUserData.designation || 'Not provided' }}</li>
+            <li><strong>Experience:</strong> {{ currentUserData.experience || 'Not provided' }}</li>
+            <li><strong>Role:</strong> {{ currentUserData.role || 'Not provided' }}</li>
+            <li><strong>Mobile Number:</strong> {{ currentUserData.mobile_number || 'Not provided' }}</li>
+            <li><strong>Email Verified:</strong> {{ currentUserData.email_verified ? 'Yes' : 'No' }}</li>
+            <li><strong>Mobile Verified:</strong> {{ currentUserData.mobile_verified ? 'Yes' : 'No' }}</li>
+          </ul>
+        </div>
+      </div>
+}
+
+@else {
+    <app-loading-spinner/>
+}
+
+  

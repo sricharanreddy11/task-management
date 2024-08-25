@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthenticatorComponent } from "./authenticator/authenticator.component";
+import { ThemeService } from './dev/settings/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +12,5 @@ import { AuthenticatorComponent } from "./authenticator/authenticator.component"
 })
 export class AppComponent {
   title = 'devlog_frontend';
+  themeService = inject(ThemeService)
 }

@@ -118,3 +118,9 @@ class UsersAPI(GenericViewSet, ListModelMixin, CreateModelMixin, RetrieveModelMi
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated],  url_path='current-user')
+    def get_current_user(self, request):
+        user = request.user
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)

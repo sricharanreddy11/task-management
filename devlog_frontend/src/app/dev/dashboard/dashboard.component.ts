@@ -3,12 +3,12 @@ import { DevAPIService } from '../dev.service';
 import { TaskCountData, TaskGraphData } from './dashboard.model';
 import Chart from 'chart.js/auto'
 import { KeyValuePipe, NgFor } from '@angular/common';
-
+import { LoadingSpinnerComponent } from "../../shared/loading-spinner/loading-spinner.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NgFor, KeyValuePipe],
+  imports: [NgFor, KeyValuePipe, LoadingSpinnerComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -18,45 +18,95 @@ export class DashboardComponent implements OnInit {
 
   taskCountData !: TaskCountData;
   taskGraphData !: TaskGraphData;
+  currentUserName: string = '';
 
   ngOnInit() {
+    this.loadCurrentUser();
     this.loadTaskData();
-    const ctx = document.getElementById('myChart');
+  }
 
-    // new Chart(ctx, {
-    //   type: 'bar',
-    //   data: {
-    //     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    //     datasets: [{
-    //       label: '# of Votes',
-    //       data: [12, 19, 3, 5, 2, 3],
-    //       borderWidth: 1
-    //     }]
-    //   },
-    //   options: {
-    //     scales: {
-    //       y: {
-    //         beginAtZero: true
-    //       }
-    //     }
-    //   }
-    // });
+  loadCurrentUser(){
+    this.devAPIService.getCurrentUser().subscribe(
+      apiData =>{
+        console.log(apiData)
+        this.currentUserName = apiData.username
+      }
+    )
   }
 
   loadTaskData() {
 
     this.devAPIService.getTaskCount().subscribe(
-      (apiData: TaskCountData)=>{
-        console.log(apiData)
-        this.taskCountData = apiData
+      (apiData: TaskCountData) => {
+        this.taskCountData = apiData;
+        console.log(this.taskCountData);
       }
-    )
+    );
 
     this.devAPIService.getTaskGraphData().subscribe(
-      (apiData: TaskGraphData)=>{
-        console.log(apiData)
-        this.taskGraphData = apiData
+      (apiData: TaskGraphData) => {
+        this.taskGraphData = apiData;
+        console.log(this.taskGraphData);
+        this.loadCharts(); // Load charts after data is fetched
       }
-    )
+    );
+  }
+
+  loadCharts() {
+    this.createChart('myChart1',
+       this.taskGraphData.tasks_added_per_day,
+        '# of Tasks Added',
+        'rgba(54, 162, 235, 0.5)',
+        'rgba(54, 162, 235, 1)'
+
+    );
+    this.createChart('myChart2',
+       this.taskGraphData.completions_per_day,
+        '# of Tasks Completed',
+        'rgba(0, 255, 0, 0.5)',
+         'rgba(0, 255, 0, 1)'
+    );
+    this.createChart('myChart3',
+       this.taskGraphData.tasks_due_next_7_days,
+        '# of Tasks Due',
+        'rgba(255, 0, 0, 0.5)',
+        'rgba(255, 0, 0, 1)'
+
+    );
+  }
+
+  createChart(chartId: string, data: Record<string, number>, label: string, backgroundColor: string, borderColor: string) {
+    let chartElement = document.getElementById(chartId) as HTMLCanvasElement;
+    if (chartElement) {
+
+      const labels = Object.keys(data).map(date => {
+        const [year, month, day] = date.split('-');
+        return `${month}/${day}`; // Formats the date as MM/DD
+      });
+      const values = Object.values(data);
+
+      new Chart(chartElement, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: label,
+            data: values,
+            backgroundColor: backgroundColor,
+            borderColor: borderColor,
+            borderWidth: 0.5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
   }
 }

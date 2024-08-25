@@ -8,7 +8,7 @@ class User(AbstractUser):
     mobile_number = models.CharField(max_length=15, null=True, blank=True)
     email = models.EmailField(blank=True, null=True)
     username = models.CharField(max_length=255, unique=True, blank=True)
-    designation = models.CharField(max_length=255, unique=True, blank=True)
+    designation = models.CharField(max_length=255, null=True, blank=True)
     experience = models.FloatField(null=True, blank=True)
     role = models.CharField(max_length=10, blank=True, null=True, choices=ROLE_CHOICES)
     email_verified = models.BooleanField(default=False)

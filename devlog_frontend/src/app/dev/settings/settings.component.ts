@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import { ThemeService } from './theme.service';
 
 @Component({
   selector: 'app-settings',
@@ -9,29 +9,13 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrl: './settings.component.css'
 })
 export class SettingsComponent {
-  darkMode = false;
+  constructor(private themeService: ThemeService) {}
 
-  constructor (private cookieService: CookieService){}
-
-  ngOnInit(): void {
-    const savedMode = this.cookieService.get('darkMode');
-    if (savedMode) {
-      this.darkMode = JSON.parse(savedMode);
-      this.updateBodyClass();
-    }
+  get darkMode(): boolean {
+    return this.themeService.isDarkMode;
   }
 
   toggleDarkMode(): void {
-    this.darkMode = !this.darkMode;
-    this.cookieService.set('darkMode', JSON.stringify(this.darkMode));
-    this.updateBodyClass();
-  }
-
-  private updateBodyClass(): void {
-    if (this.darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    this.themeService.toggleDarkMode();
   }
 }

@@ -11,6 +11,21 @@ export class DevAPIService{
     apiUrl = environment.apiUrl;
     private httpClient = inject(HttpClient);
 
+    getCurrentUser(): Observable<any>{
+        return this.httpClient.get(this.apiUrl + 'auth/users/current-user/');
+    }
+
+    getChatbotResponse(paramsObj?: { [key: string]: any }): Observable<any>{
+        let params = new HttpParams();
+
+        if (paramsObj) {
+            Object.keys(paramsObj).forEach(key => {
+                params = params.set(key, paramsObj[key]);
+            });
+        }
+        return this.httpClient.get(this.apiUrl + 'chat/ai', { params });
+    }
+
 
     getTaskList(paramsObj?: { [key: string]: any }): Observable<any> {
         let params = new HttpParams();
