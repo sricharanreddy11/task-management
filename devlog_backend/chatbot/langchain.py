@@ -13,15 +13,8 @@ class LangChainService:
 
     def initialize_db(self):
         try:
-            username = env('DB_USER')
-            password = env('DB_PASSWORD')
-            host = env('DB_HOST')
-            database = env('DB_NAME')
-            os.environ["OPENAI_API_KEY"] = env("OPENAI_API_KEY")
 
-            db = SQLDatabase.from_uri(
-                f"mysql+pymysql://{username}:{password}@{host}/{database}"
-            )
+            db = SQLDatabase.from_uri(env("DATABASE_URL"))
 
             return db
 
