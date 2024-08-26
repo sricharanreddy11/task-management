@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
+
+import dj_database_url
 from corsheaders.defaults import default_headers
 import environ
 
@@ -35,7 +37,8 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env("DEBUG")
 ENVIRONMENT = env('ENVIRONMENT')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'devtracker.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://devtracker.up.railway.app']
 
 
 # Application definition
@@ -92,15 +95,9 @@ WSGI_APPLICATION = 'devlog.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
-        'PORT': env('DB_PORT')
-    }
+    'default': dj_database_url.parse(env("DATABASE_URL"))
 }
 
 
