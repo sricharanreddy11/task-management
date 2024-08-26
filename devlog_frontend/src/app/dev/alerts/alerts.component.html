@@ -1,1 +1,11 @@
-<p>alerts works!</p>
+<div class="alerts-container max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
+    <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4 border-b-2 border-gray-200 dark:border-gray-700 pb-2">
+        Upcoming Due Tasks
+    </h2>
+    <ul class="space-y-4">
+        <li *ngFor="let task of tasks" class="flex items-center justify-between p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow hover:bg-gray-200 dark:hover:bg-gray-600 transition-all">
+            <span class="text-lg font-medium text-gray-700 dark:text-gray-100">{{ task.title }}</span>
+            <span class="text-sm text-gray-500 dark:text-gray-400">{{ task.due_date | date: 'short' }}</span>
+        </li>
+    </ul>
+</div>

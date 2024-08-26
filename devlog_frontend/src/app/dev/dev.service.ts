@@ -57,6 +57,10 @@ export class DevAPIService{
         return this.httpClient.put(this.apiUrl + 'track/tasks/' + task_id + '/', resData);
     }
 
+    getTaskAlerts(): Observable<any>{
+        return this.httpClient.get(this.apiUrl + 'track/tasks/alerts/');
+    }
+
     getProjectList(): Observable<any>{
         return this.httpClient.get(this.apiUrl + 'track/projects/');
     }
@@ -80,4 +84,5 @@ export class DevAPIService{
     updateNote(resData: any, note_id : string): Observable<any>{
         return this.httpClient.put(this.apiUrl + 'log/notes/' + note_id + '/', resData);
     }
+    
 }
