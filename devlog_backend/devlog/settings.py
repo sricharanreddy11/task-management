@@ -38,7 +38,6 @@ DEBUG = env("DEBUG")
 ENVIRONMENT = env('ENVIRONMENT')
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'devtracker.up.railway.app']
-CSRF_TRUSTED_ORIGINS = ['https://devtracker.up.railway.app']
 
 
 # Application definition
@@ -134,6 +133,7 @@ USE_TZ = True
 CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:4200',
+    'https://devtracker.up.railway.app',
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers)

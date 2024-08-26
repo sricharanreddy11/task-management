@@ -6,5 +6,6 @@
 static/
 **/__pycache__/
 .env_local
+.env_prod
 ../devlog_frontend
 db.sqlite3
