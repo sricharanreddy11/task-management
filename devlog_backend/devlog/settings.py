@@ -95,10 +95,22 @@ WSGI_APPLICATION = 'devlog.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-DATABASES = {
-    'default': dj_database_url.parse(env("DATABASE_URL"))
-}
+if ENVIRONMENT == "LOCAL":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': env('DB_NAME'),
+            'USER': env('DB_USER'),
+            'PASSWORD': env('DB_PASSWORD'),
+            'HOST': env('DB_HOST'),
+            'PORT': env('DB_PORT')
+        }
+    }
 
+else:
+    DATABASES = {
+        'default': dj_database_url.parse(env("DATABASE_URL"))
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

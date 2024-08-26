@@ -8,7 +8,6 @@ from typing import Any
 from django.core.validators import validate_email
 
 from authenticator.Services.communication_channel import CommunicationChannel
-from authenticator.constants import Defaults
 from devlog.settings import env
 
 
@@ -67,8 +66,7 @@ class EmailService(CommunicationChannel):
         if from_mail:
             self.configure_smtp_credentials(mail=from_mail)
         else:
-            from_mail = Defaults.DEFAULT_FROM_MAIL
-            self.configure_smtp_credentials(mail=Defaults.DEFAULT_FROM_MAIL)
+            self.configure_smtp_credentials(mail=env("FROM_MAIL"))
         msg['From'] = from_mail
         msg['To'] = ','.join(send_to)
         msg['Cc'] = ','.join(cc_mails)

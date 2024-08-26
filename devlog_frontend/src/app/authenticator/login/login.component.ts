@@ -50,7 +50,7 @@ export class LoginComponent {
       error => {
         console.log(error.error);
         this.isLoading = false;
-        this.message = error.error;
+        this.message = "Error Sending OTP";
       }
     );
   }
