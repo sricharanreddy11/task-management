@@ -17,7 +17,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Task.objects.filter(user=self.request.user)
+        return Task.objects.filter(user=self.request.user).order_by('-created_at')
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -76,6 +76,14 @@ class TaskViewSet(viewsets.ModelViewSet):
             'tasks_added_per_day': tasks_added_per_day,
             'tasks_due_next_7_days': tasks_due_next_7_days
         }, status=status.HTTP_200_OK)
+
+    @action(methods=['GET'], detail=False, url_path='alerts', url_name='alerts')
+    def alerts_for_tasks(self, request):
+        user_tasks = self.get_queryset()
+        now = timezone.now()
+        due_soon_tasks = user_tasks.filter(due_date__range=(now, now + timedelta(days=2)))
+        task_list = [{'id': task.id, 'title': task.title, 'due_date': task.due_date} for task in due_soon_tasks]
+        return Response({'tasks': task_list})
 
 
 class ProjectViewSet(viewsets.ModelViewSet):
