@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DevAPIService } from '../../dev.service';
+import { TaskService } from '../tasks.service';
 
 @Component({
   selector: 'app-new-task',
@@ -15,20 +16,22 @@ export class NewTaskComponent {
 
   taskForm!: FormGroup;
   projects: any[] = [];
+  message: string = '';
 
   constructor(
     private fb: FormBuilder,
-    private devAPIService: DevAPIService
+    private devAPIService: DevAPIService,
+    private taskService: TaskService
   ) {}
 
   ngOnInit(): void {
     // Initialize form
     this.taskForm = this.fb.group({
       title: ['', Validators.required],
-      status: ['', Validators.required],
       due_date: ['', Validators.required],
-      priority: ['', Validators.required],
-      project: ['', Validators.required],
+      status: ['todo'],
+      priority: ['medium'],
+      project: [''],
       description: ['']
     });
 
@@ -50,13 +53,25 @@ export class NewTaskComponent {
       console.log('Form Data:', formData);
 
       // Call the service to post data
-      this.devAPIService.createTask(formData).subscribe(response => {
+      this.taskService.createTask(formData).subscribe((response) => {
         console.log('Task Created:', response);
-      });
+        this.modalComponent.closeModal(); // Close modal after submission
+        window.location.reload()
+        this.message = ''
 
-      this.modalComponent.closeModal(); // Close modal after submission
-
-      window.location.reload()
+      },
+      (error) =>{
+        this.message = error.message
+        console.log(error)
+      }
+    );
     }
+    else{
+      this.message = "Form Details Invalid"
+    }
+  }
+  
+  closeMessage(){
+    this.message = ''
   }
 }

@@ -1,5 +1,5 @@
 @if(currentUserData){
-    <div class="bg-white dark:bg-gray-800 my-10 p-6 rounded-lg shadow-lg w-3/4 mx-auto">
+    <div class="bg-white dark:bg-gray-800 my-10 p-6 rounded-lg w-3/4 mx-auto">
         <h1 class="text-2xl font-bold mb-6 text-center dark:text-white">User Profile</h1>
       
         <div class="flex items-center mb-4">
@@ -26,8 +26,6 @@
             <li><strong>Experience:</strong> {{ currentUserData.experience || 'Not provided' }}</li>
             <li><strong>Role:</strong> {{ currentUserData.role || 'Not provided' }}</li>
             <li><strong>Mobile Number:</strong> {{ currentUserData.mobile_number || 'Not provided' }}</li>
-            <li><strong>Email Verified:</strong> {{ currentUserData.email_verified ? 'Yes' : 'No' }}</li>
-            <li><strong>Mobile Verified:</strong> {{ currentUserData.mobile_verified ? 'Yes' : 'No' }}</li>
           </ul>
         </div>
       </div>

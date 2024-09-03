@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'authenticator',
     'note_management',
     'task_management',
-    'chatbot',
+    'analytics',
 ]
 
 MIDDLEWARE = [
