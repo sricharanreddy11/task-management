@@ -5,5 +5,5 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'https://notefluxai.up.railway.app'
+  apiUrl: 'https://notefluxai.up.railway.app/'
 };
