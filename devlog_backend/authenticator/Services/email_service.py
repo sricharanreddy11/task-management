@@ -92,11 +92,15 @@ class EmailService(CommunicationChannel):
         res, error = self.validate()
         if not res:
             return False, error
-        otp_subject = "Dev Tasks Made Easier"
+        otp_subject = "Your Secure Access Code for NoteFlux AI"
         body_msg = MIMEText(
-            f"Dear {user_name},<br><br>{otp} is your verification code "
-            f"Required to verify your account. "
-            f"This code is valid for the next 10 minutes.<br><br>"
+            f"Hello {user_name},<br><br>"
+            f"Your one-time verification code is <strong>{otp}</strong>.<br>"
+            f"This code will secure your access to Note Flux AI, ensuring that only you can manage your tasks and "
+            f"notes efficiently.<br><br>"
+            f"Please use this code within the next 10 minutes.<br><br>"
+            f"Cheers,<br>"
+            f"The TaskMaster AI Team"
             , 'html')
 
         try:
