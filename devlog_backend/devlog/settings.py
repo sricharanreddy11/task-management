@@ -147,6 +147,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://notefluxai.vercel.app',
 ]
 
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = list(default_headers)
 
 
