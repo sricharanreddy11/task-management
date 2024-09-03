@@ -144,6 +144,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost:4200',
     'https://devtracker.up.railway.app',
+    'https://notefluxai.vercel.app',
 ]
 
 CORS_ALLOW_HEADERS = list(default_headers)
