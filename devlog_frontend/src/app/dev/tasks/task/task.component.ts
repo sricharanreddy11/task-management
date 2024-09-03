@@ -6,6 +6,7 @@ import { LoadingSpinnerComponent } from "../../../shared/loading-spinner/loading
 import { FormsModule, NgModel } from '@angular/forms';
 import { StatusPipe } from "../status.pipe";
 import { DevAPIService } from '../../dev.service';
+import { TaskService } from '../tasks.service';
 
 @Component({
   selector: 'app-task',
@@ -19,7 +20,7 @@ export class TaskComponent {
   @ViewChild('modal') modalComponent!: ModalComponent;
   @Input() task: any;
 
-  private devAPIService = inject(DevAPIService)
+  private tasksService = inject(TaskService)
   
   // Track edit mode for each field using an index signature
   editMode: { [key: string]: boolean } = {
@@ -62,7 +63,7 @@ export class TaskComponent {
 
   updateTask() {
     let task_id = this.task.id
-    this.devAPIService.updateTask({
+    this.tasksService.updateTask({
       "title": this.task.title,
       "description": this.task.description,
       "due_date": this.task.due_date,
@@ -72,7 +73,6 @@ export class TaskComponent {
       (resData) =>{
         console.log(resData)
         console.log("Task Completed")
-        window.location.reload()
       },
       (error) => {
         console.error('Error updating task', error);

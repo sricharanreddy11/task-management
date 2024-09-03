@@ -5,6 +5,7 @@ import { DatePipe } from '@angular/common';
 import { TaskComponent } from "./task/task.component";
 import { StatusPipe } from "./status.pipe";
 import { PriorityPipe } from "./priority.pipe";
+import { TaskService } from './tasks.service';
 
 @Component({
   selector: 'app-tasks',
@@ -17,9 +18,10 @@ export class TasksComponent {
   tasks: any;
   selectedTask: any;
 
-  constructor(private devAPIService: DevAPIService){}
+  constructor(private devAPIService: DevAPIService, private tasksService: TaskService
+  ){}
     ngOnInit(){
-      this.devAPIService.getTaskList().subscribe(
+      this.tasksService.getTaskList().subscribe(
         (resData: any) => {
           console.log(resData)
           this.tasks = resData
@@ -33,7 +35,7 @@ export class TasksComponent {
 
   completeTask(task: any) {
     let task_id = task.id
-    this.devAPIService.updateTask({
+    this.tasksService.updateTask({
       "title": task.title,
       "status": "completed"
     }, task_id).subscribe(

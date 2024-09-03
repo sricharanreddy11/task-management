@@ -4,6 +4,7 @@ import { TaskCountData, TaskGraphData } from './dashboard.model';
 import Chart from 'chart.js/auto'
 import { KeyValuePipe, NgFor } from '@angular/common';
 import { LoadingSpinnerComponent } from "../../shared/loading-spinner/loading-spinner.component";
+import { TaskService } from '../tasks/tasks.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +15,9 @@ import { LoadingSpinnerComponent } from "../../shared/loading-spinner/loading-sp
 })
 export class DashboardComponent implements OnInit {
 
-  constructor (private devAPIService: DevAPIService) {}
+  constructor (private taskService: TaskService,
+    private devAPIService: DevAPIService
+  ) {}
 
   taskCountData !: TaskCountData;
   taskGraphData !: TaskGraphData;
@@ -36,14 +39,14 @@ export class DashboardComponent implements OnInit {
 
   loadTaskData() {
 
-    this.devAPIService.getTaskCount().subscribe(
+    this.taskService.getTaskCount().subscribe(
       (apiData: TaskCountData) => {
         this.taskCountData = apiData;
         console.log(this.taskCountData);
       }
     );
 
-    this.devAPIService.getTaskGraphData().subscribe(
+    this.taskService.getTaskGraphData().subscribe(
       (apiData: TaskGraphData) => {
         this.taskGraphData = apiData;
         console.log(this.taskGraphData);
@@ -102,7 +105,10 @@ export class DashboardComponent implements OnInit {
           maintainAspectRatio: false,
           scales: {
             y: {
-              beginAtZero: true
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1
+              }
             }
           }
         }

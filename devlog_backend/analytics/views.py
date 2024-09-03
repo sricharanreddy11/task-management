@@ -1,3 +1,5 @@
+import markdown
+from bs4 import BeautifulSoup
 from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -31,8 +33,11 @@ class ChatbotAPI(APIView):
 
         content = openai_obj.get_response_for_prompt(user_prompt=user_prompt)
 
+        html = markdown.markdown(content)
+        soup = BeautifulSoup(html, features='html.parser')
+
         return Response({
-            "content": content
+            "content": soup.get_text()
         }, status=status.HTTP_200_OK)
 
 

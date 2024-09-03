@@ -1,21 +1,28 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
   <div class="mb-12">
-    <h3 class="text-gray-800 text-3xl font-extrabold">Register</h3>
-    <p class="text-sm mt-4 text-gray-800">Already have an account <a routerLink="/auth/login" class="text-blue-600 font-semibold hover:underline ml-1 whitespace-nowrap">Login here</a></p>
+    <h3 class="text-gray-800 dark:text-white text-3xl font-extrabold">Register</h3>
+    <p class="text-sm mt-4 text-gray-800 dark:text-gray-400">
+      Already have an account
+      <a routerLink="/auth/login" class="text-blue-600 dark:text-blue-400 font-semibold hover:underline ml-1 whitespace-nowrap">
+        Login here
+      </a>
+    </p>
   </div>
+
   @if(message){
-    <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 mb-2 rounded relative" role="alert">
+    <div class="bg-blue-100 dark:bg-blue-900 border border-blue-400 dark:border-blue-500 text-blue-700 dark:text-blue-200 px-4 py-3 mb-2 rounded relative" role="alert">
       <strong class="font-bold">{{message}}!</strong>
       <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-        <svg (click)="closeMessage()" class="fill-current h-6 w-6 text-blue-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+        <svg (click)="closeMessage()" class="fill-current h-6 w-6 text-blue-500 dark:text-blue-300" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
       </span>
     </div>
   }
+
   <div>
-    <label class="text-gray-800 text-xs block mb-2">Email</label>
+    <label class="text-gray-800 dark:text-gray-400 text-xs block mb-2">Email</label>
     <div class="relative flex items-center">
-      <input formControlName="email" name="email" type="email" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter email" />
-      <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2" viewBox="0 0 682.667 682.667">
+      <input formControlName="email" name="email" type="email" required class="w-full text-gray-800 dark:text-white text-sm border-b border-gray-300 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-400 px-2 py-3 bg-transparent outline-none" placeholder="Enter email" />
+      <svg xmlns="http://www.w3.org/2000/svg" fill="#bbb" stroke="#bbb" class="w-[18px] h-[18px] absolute right-2 dark:fill-gray-400 dark:stroke-gray-400" viewBox="0 0 682.667 682.667">
         <defs>
           <clipPath id="a" clipPathUnits="userSpaceOnUse">
             <path d="M0 512h512V0H0Z" data-original="#000000"></path>
@@ -28,21 +35,30 @@
       </svg>
     </div>
   </div>
+
   <div class="mt-8">
-    <label class="text-gray-800 text-xs block mb-2">First Name</label>
+    <label class="text-gray-800 dark:text-gray-400 text-xs block mb-2">User Name</label>
     <div class="relative flex items-center">
-      <input formControlName="first_name" name="first_name" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter First Name" />
+      <input formControlName="user_name" name="user_name" type="text" required class="w-full text-gray-800 dark:text-white text-sm border-b border-gray-300 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-400 px-2 py-3 bg-transparent outline-none" placeholder="Enter User Name" />
     </div>
   </div>
+
   <div class="mt-8">
-    <label class="text-gray-800 text-xs block mb-2">Last Name</label>
+    <label class="text-gray-800 dark:text-gray-400 text-xs block mb-2">First Name</label>
     <div class="relative flex items-center">
-      <input formControlName="last_name" name="last_name" type="text" required class="w-full text-gray-800 text-sm border-b border-gray-300 focus:border-blue-600 px-2 py-3 outline-none" placeholder="Enter Last Name" />
+      <input formControlName="first_name" name="first_name" type="text" required class="w-full text-gray-800 dark:text-white text-sm border-b border-gray-300 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-400 px-2 py-3 bg-transparent outline-none" placeholder="Enter First Name" />
+    </div>
+  </div>
+
+  <div class="mt-8">
+    <label class="text-gray-800 dark:text-gray-400 text-xs block mb-2">Last Name</label>
+    <div class="relative flex items-center">
+      <input formControlName="last_name" name="last_name" type="text" class="w-full text-gray-800 dark:text-white text-sm border-b border-gray-300 dark:border-gray-600 focus:border-blue-600 dark:focus:border-blue-400 px-2 py-3 bg-transparent outline-none" placeholder="Enter Last Name" />
     </div>
   </div>
 
   <div class="mt-12">
-    <button [disabled]="registerForm.invalid" type="submit" class="w-full shadow-xl py-2.5 px-4 text-sm tracking-wide rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+    <button [disabled]="registerForm.invalid" type="submit" class="w-full shadow-xl py-2.5 px-4 text-sm tracking-wide rounded-md text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 focus:outline-none">
       Register
     </button>
   </div>

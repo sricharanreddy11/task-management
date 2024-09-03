@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthenticatorService } from '../authenticator.service';
 import { last, Subscription } from 'rxjs';
 
@@ -16,8 +16,9 @@ export class RegisterComponent {
   message: string = '';
   private authSubscribe: Subscription | undefined;
 
-  constructor(private authService: AuthenticatorService) {
+  constructor(private authService: AuthenticatorService, private router: Router) {
     this.registerForm = new FormGroup({
+      user_name: new FormControl('',[Validators.required]),
       first_name: new FormControl('',[Validators.required]),
       last_name: new FormControl(''),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -30,13 +31,17 @@ export class RegisterComponent {
       return;
     }
     const email = this.registerForm.value.email;
+    const user_name = this.registerForm.value.user_name;
     const first_name = this.registerForm.value.first_name;
     const last_name = this.registerForm.value.last_name;
-    this.authSubscribe = this.authService.registerUser(first_name,last_name,email).subscribe(
+    this.authSubscribe = this.authService.registerUser(user_name,first_name,last_name,email).subscribe(
       (requestData) => {
         console.log(requestData);
-        this.message = 'User registered Sucessfully';
+        this.message = 'User registered successfully. Redirecting to login page...';
 
+        setTimeout(() => {
+          this.router.navigate(['/auth/login']);
+        }, 3000);
       },
       error => {
         console.log(error.error);
