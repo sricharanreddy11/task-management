@@ -1,9 +1,11 @@
 from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
-from chatbot.langchain import LangChainService
 from rest_framework import status
+
+from analytics.serializers import UserTaskSerializer
+from analytics.services.openai_service import OpenAIChatbotService
+from task_management.models import Task
 
 
 class ChatbotAPI(APIView):
@@ -16,10 +18,18 @@ class ChatbotAPI(APIView):
                 "error": "User Prompt Not sent"
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        langchain_obj = LangChainService()
+        task_objs = Task.objects.all().prefetch_related(
+            "notes"
+        )
 
-        langchain_obj.initialize_db()
-        content = langchain_obj.get_response_for_prompt(user_prompt=user_prompt)
+        tasks_dict = UserTaskSerializer(task_objs, many=True).data
+
+        openai_obj = OpenAIChatbotService(
+            user_id=user.id,
+            user_data=tasks_dict
+        )
+
+        content = openai_obj.get_response_for_prompt(user_prompt=user_prompt)
 
         return Response({
             "content": content
