@@ -37,7 +37,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env("DEBUG")
 ENVIRONMENT = env('ENVIRONMENT')
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'devtracker.up.railway.app']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'devtracker.up.railway.app', 'notefluxai.up.railway.app']
 
 
 # Application definition
