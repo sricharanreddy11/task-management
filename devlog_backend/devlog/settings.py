@@ -107,8 +107,13 @@ WSGI_APPLICATION = 'devlog.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.parse(env("DATABASE_URL"))
+    'default': dj_database_url.parse(env("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
+# Ensure you have the correct backend
+DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
