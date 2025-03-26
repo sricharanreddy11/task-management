@@ -20,7 +20,7 @@ class ChatbotAPI(APIView):
                 "error": "User Prompt Not sent"
             }, status=status.HTTP_400_BAD_REQUEST)
 
-        task_objs = Task.objects.all().prefetch_related(
+        task_objs = Task.objects.all().filter(user=user).prefetch_related(
             "notes"
         )
 
@@ -34,10 +34,9 @@ class ChatbotAPI(APIView):
         content = openai_obj.get_response_for_prompt(user_prompt=user_prompt)
 
         html = markdown.markdown(content)
-        soup = BeautifulSoup(html, features='html.parser')
 
         return Response({
-            "content": soup.get_text()
+            "content": html
         }, status=status.HTTP_200_OK)
 
 
