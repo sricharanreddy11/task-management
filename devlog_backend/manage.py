@@ -10,18 +10,16 @@ ENV_PARAM = 'ENV_PARAM'
 def parse_argv(argv):
     import argparse
     parser = argparse.ArgumentParser()
-    # Make env optional with a default value
-    parser.add_argument("-e", "--env", default="PROD", required=False)
+    parser.add_argument("-e", "--env", required=True)
     return parser.parse_known_args(argv)
 
 
 def fetch_env_from_argv(argv):
     args, argv = parse_argv(argv)
-    # Ensure consistent environment selection
-    if args.env.upper() in ['PROD', 'PRODUCTION']:
+    if args.env in ['PROD', 'prod']:
         print('selecting .env_prod')
         os.environ.setdefault(ENV_PARAM, 'PROD')
-    elif args.env.upper() in ['DEV', 'DEVELOPMENT']:
+    elif args.env in ['DEV', 'dev']:
         print('selecting .env_dev')
         os.environ.setdefault(ENV_PARAM, 'DEV')
     else:
@@ -42,6 +40,7 @@ def set_env(argv):
     return argv
 
 
+
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'devlog.settings')
@@ -53,12 +52,6 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
-
-    # Special handling for collectstatic
-    if len(sys.argv) == 2 and sys.argv[1] == 'collectstatic':
-        # Automatically add -e PROD for collectstatic if no env specified
-        sys.argv.extend(['-e', 'PROD'])
-
     argv = set_env(sys.argv)
     execute_from_command_line(argv)
 
