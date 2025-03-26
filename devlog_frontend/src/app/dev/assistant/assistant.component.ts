@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DevAPIService } from '../dev.service';
 import { FormsModule } from '@angular/forms';
 import { NgClass, NgFor, NgIf } from '@angular/common';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 interface Message {
   text: string;
@@ -21,7 +22,7 @@ export class AssistantComponent {
   messages: Message[] = []; // Array to keep track of the conversation
   isLoading: boolean = false; // Loading state
 
-  constructor(private devAPIService: DevAPIService) {}
+  constructor(private devAPIService: DevAPIService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.loadMessages();
@@ -39,7 +40,7 @@ export class AssistantComponent {
     // Call the API and get the response
     this.devAPIService.getChatbotResponse(paramsObj).subscribe(
       (data: any) => {
-        // Add AI's response to the conversation
+        const sanitizedContent: SafeHtml = this.sanitizer.bypassSecurityTrustHtml(data.content);
         this.addMessage(data.content, 'ai');
         this.isLoading = false; // Set loading to false
       },
