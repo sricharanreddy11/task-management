@@ -5,5 +5,5 @@
 
 export const environment = {
   production: true,
-  apiUrl: 'https://notefluxai.up.railway.app/'
+  apiUrl: 'https://fresh-aline-narahc-cc1041f5.koyeb.app/'
 };
