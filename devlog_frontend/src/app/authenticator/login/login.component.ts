@@ -4,6 +4,7 @@ import { AuthenticatorService } from '../authenticator.service';
 import { Router, RouterLink } from '@angular/router';
 import { LoadingSpinnerComponent } from "../../shared/loading-spinner/loading-spinner.component";
 import { Subscription } from 'rxjs';
+import { GoogleAuthService } from '../google-auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent {
   isLoading: boolean = false;
   private authSubscribe: Subscription | undefined;
 
-  constructor(private authService: AuthenticatorService, private router: Router) {
+  constructor(private authService: AuthenticatorService, private router: Router, private googleAuthService: GoogleAuthService) {
     this.loginForm = new FormGroup({
       email_mobile: new FormControl('', [Validators.required, Validators.email])
     });
@@ -53,6 +54,11 @@ export class LoginComponent {
         this.message = "Error Sending OTP";
       }
     );
+  }
+
+  loginWithGoogle() {
+    this.isLoading = true;
+    this.googleAuthService.signInWithGoogle();
   }
 
   closeMessage(){

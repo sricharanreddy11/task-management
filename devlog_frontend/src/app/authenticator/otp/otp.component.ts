@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-otp',
   templateUrl: './otp.component.html',
-  imports: [FormsModule, ReactiveFormsModule, RouterLink, NgFor, LoadingSpinnerComponent],
+  imports: [FormsModule, ReactiveFormsModule, NgFor, LoadingSpinnerComponent],
   standalone: true,
   styleUrl: './otp.component.css'
 })

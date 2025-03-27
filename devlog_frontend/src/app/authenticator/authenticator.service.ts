@@ -46,7 +46,7 @@ export class AuthenticatorService {
     })
   }
 
-  private setSession(access_token: string, refresh_token: string = "") {
+  setSession(access_token: string, refresh_token: string = "") {
     const expirationDate = this.jwtService.getTokenExpirationDate(access_token);
     const cookieOptions = { path: this.cookiePath };
 

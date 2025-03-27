@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { Router, RouterLink } from '@angular/router';
 import { AuthenticatorService } from '../authenticator.service';
 import { last, Subscription } from 'rxjs';
+import { GoogleAuthService } from '../google-auth.service';
 
 @Component({
   selector: 'app-register',
@@ -16,7 +17,7 @@ export class RegisterComponent {
   message: string = '';
   private authSubscribe: Subscription | undefined;
 
-  constructor(private authService: AuthenticatorService, private router: Router) {
+  constructor(private authService: AuthenticatorService, private router: Router, private googleAuthService: GoogleAuthService) {
     this.registerForm = new FormGroup({
       user_name: new FormControl('',[Validators.required]),
       first_name: new FormControl('',[Validators.required]),
@@ -48,6 +49,10 @@ export class RegisterComponent {
         this.message = error.error;
       }
     );
+  }
+
+  loginWithGoogle() {
+    this.googleAuthService.signInWithGoogle();
   }
 
   closeMessage(){
