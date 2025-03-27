@@ -124,3 +124,34 @@ class UsersAPI(GenericViewSet, ListModelMixin, CreateModelMixin, RetrieveModelMi
         user = request.user
         serializer = self.get_serializer(user)
         return Response(serializer.data)
+
+
+from dj_rest_auth.registration.views import SocialLoginView
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth import get_user_model
+from rest_framework.response import Response
+from rest_framework import status
+
+User = get_user_model()
+
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+        user = self.user
+
+        # Generate JWT Token
+        refresh = RefreshToken.for_user(user)
+        jwt_data = {
+            "refresh": str(refresh),
+            "access": str(refresh.access_token),
+            "user": {
+                "id": user.id,
+                "email": user.email,
+                "username": user.username
+            }
+        }
+
+        return Response(jwt_data, status=status.HTTP_200_OK)
