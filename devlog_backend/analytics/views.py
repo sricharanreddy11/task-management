@@ -1,9 +1,8 @@
 import markdown
-from bs4 import BeautifulSoup
-from django.http import HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.viewsets import GenericViewSet
 
 from analytics.serializers import UserTaskSerializer
 from analytics.services.openai_service import OpenAIChatbotService
@@ -41,4 +40,32 @@ class ChatbotAPI(APIView):
 
 
 
+class CommandSearchAPI(APIView):
+
+    def get(self, request):
+        user = request.user
+        command = request.GET.get("command", "")
+
+        if not command:
+            return Response({
+                "error": "Command Not sent"
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+
+        openai_obj = OpenAIChatbotService(
+            user_id=user.id,
+        )
+
+        content_dict = openai_obj.get_response_for_command_search(command=command)
+
+        creation_intent = content_dict.get('creation_intent', "false").lower() == "true"
+
+        if creation_intent:
+            model_obj = openai_obj.create_model_object_from_command(
+                command=command,
+                model_type=content_dict.get('model_type')
+            )
+            content_dict["created_obj_id"] = model_obj.id
+
+        return Response(content_dict, status=status.HTTP_200_OK)
 

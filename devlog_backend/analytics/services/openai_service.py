@@ -1,7 +1,11 @@
+import json
+
 from openai import OpenAI
+from pydantic import BaseModel
 from rest_framework import serializers
 
 from analytics.serializers import OpenAIModelSerializer
+from analytics.unit_functions import MODEL_REGISTRY, PYDANTIC_MODEL_REGISTRY, create_object
 from devlog.settings import env
 
 
@@ -20,6 +24,20 @@ class OpenAIService:
             frequency_penalty=frequency_penalty,
         )
         return response
+
+    def generate_structured_response(self, messages, n, response_format, temperature, frequency_penalty):
+        completion = self.client.beta.chat.completions.parse(
+            model=self.model,
+            messages=messages,
+            response_format=response_format,
+            frequency_penalty=frequency_penalty,
+            n=n,
+            temperature=temperature
+        )
+
+        return completion
+
+
 
     def _build_successful_object(self, response, **kwargs):
         event_name = kwargs.get("event_name", None)
@@ -112,3 +130,117 @@ class OpenAIChatbotService(OpenAIService):
                 user_id=self.user_id
             )
             raise serializers.ValidationError(f"Failed to process the transcript due to: {str(e)}")
+
+
+    def get_response_for_command_search(self, command):
+
+        system_prompt = """
+        You are an AI designed to handle user requests and route them to the appropriate sections of the web application.
+         The user will provide a search query or a command, and you will respond with the appropriate route URL for that command.
+
+            Here are some example routes and their corresponding keywords:
+            - "Dashboard" → dev/dashboard
+            - "Projects" → dev/projects
+            - "Tasks" → dev/tasks
+            - "Alerts" → dev/alerts
+            - "Notes" → dev/note-maker
+            - "Assistant" → dev/assistant
+            - "Profile" -> dev/profile
+            
+            If there is creation intent in the command prompt then it would be for Tasks, Projects, Notes
+            return model_type as task, project, note respectively in that key
+            
+            If the query doesn't match any of the predefined routes, give route key as 'unknown'
+            the format is {'route': The Route fetched, 'creation_intent': "true" or "false",
+            'model_type': if there is creation intent then model type else give an empty string ""}
+        """
+
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": command},
+        ]
+
+        try:
+
+            class Route(BaseModel):
+                route: str
+                creation_intent: str
+                model_type: str
+
+            response = self.generate_structured_response(
+                messages=messages,
+                response_format=Route,
+                temperature=0.5,
+                n=1,
+                frequency_penalty=0.5,
+            )
+
+            self._build_successful_object(
+                response=response,
+                event_name="command-search",
+                user_id=self.user_id
+            )
+            content = response.choices[
+                0].message.content if response.choices else "Response not generated."
+
+            content_dict = json.loads(content)
+
+            return content_dict
+
+        except Exception as e:
+            self._build_failed_object(
+                error=e,
+                event_name="chatbot",
+                user_id=self.user_id
+            )
+            raise serializers.ValidationError(f"Failed to process the transcript due to: {str(e)}")
+
+    def create_model_object_from_command(self, command, model_type):
+
+        system_prompt = """
+            Based on the details in the command provided fill the model creation form.
+        """
+
+        messages = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": command},
+        ]
+
+        try:
+
+            model_name = MODEL_REGISTRY.get(model_type)
+            pydantic_model = PYDANTIC_MODEL_REGISTRY.get(model_name)
+
+            response = self.generate_structured_response(
+                messages=messages,
+                response_format=pydantic_model,
+                temperature=0.5,
+                n=1,
+                frequency_penalty=0.5,
+            )
+
+            self._build_successful_object(
+                response=response,
+                event_name="create-object",
+                user_id=self.user_id
+            )
+            content = response.choices[
+                0].message.content if response.choices else "Response not generated."
+
+            content_dict = json.loads(content)
+
+            model_obj = create_object(model_name, self.user_id, **content_dict)
+
+            return model_obj
+
+        except Exception as e:
+            self._build_failed_object(
+                error=e,
+                event_name="chatbot",
+                user_id=self.user_id
+            )
+            raise serializers.ValidationError(f"Failed to process the transcript due to: {str(e)}")
+
+
+
+

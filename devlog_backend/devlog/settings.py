@@ -193,10 +193,16 @@ SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': ['email', 'profile'],
         'AUTH_PARAMS': {'access_type': 'online'},
+    },
+    'github': {
+        'SCOPE': [
+            'user',
+            'user:email',
+        ]
     }
 }
-
+HOST_URL=env('HOST_URL')
 SITE_ID = 1
 REST_USE_JWT = True
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env("GOOGLE_CLIENT_ID")  # Google OAuth2 Client ID
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env("GOOGLE_CLIENT_SECRET")  # Google OAuth2 Secret
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env("GOOGLE_CLIENT_ID")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env("GOOGLE_CLIENT_SECRET")
