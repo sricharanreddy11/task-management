@@ -20,7 +20,11 @@ export class LoginComponent {
   isLoading: boolean = false;
   private authSubscribe: Subscription | undefined;
 
-  constructor(private authService: AuthenticatorService, private router: Router, private googleAuthService: GoogleAuthService) {
+  constructor(
+    private authService: AuthenticatorService,
+    private router: Router, 
+    private googleAuthService: GoogleAuthService,
+  ) {
     this.loginForm = new FormGroup({
       email_mobile: new FormControl('', [Validators.required, Validators.email])
     });

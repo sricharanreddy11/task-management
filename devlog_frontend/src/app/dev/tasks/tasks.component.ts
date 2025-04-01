@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DevAPIService } from '../dev.service';
 import { NewTaskComponent } from "./new-task/new-task.component";
 import { DatePipe } from '@angular/common';
@@ -6,6 +6,7 @@ import { TaskComponent } from "./task/task.component";
 import { StatusPipe } from "./status.pipe";
 import { PriorityPipe } from "./priority.pipe";
 import { TaskService } from './tasks.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-tasks',
@@ -15,22 +16,36 @@ import { TaskService } from './tasks.service';
   styleUrl: './tasks.component.css'
 })
 export class TasksComponent {
-  tasks: any;
-  selectedTask: any;
+  creationIntent: string = '';
+  createdObjId: string = '';
 
-  constructor(private devAPIService: DevAPIService, private tasksService: TaskService
+  @ViewChild('taskDetail', { static: false }) 
+  public taskDetail!: TaskComponent;
+
+  @ViewChild('newTask', { static: false }) 
+  public newTask!: NewTaskComponent;
+
+  constructor(private devAPIService: DevAPIService,
+     public tasksService: TaskService,
+     private route: ActivatedRoute,
   ){}
     ngOnInit(){
       this.tasksService.getTaskList().subscribe(
         (resData: any) => {
           console.log(resData)
-          this.tasks = resData
+          this.tasksService.tasks = resData
         }
       )
     }
 
+    ngAfterViewInit() {
+      // Pass the component references to the service
+      this.tasksService.setTaskDetailComponent(this.taskDetail);
+      this.tasksService.setNewTaskComponent(this.newTask);
+    }
+
   selectTask(task: any) {
-    this.selectedTask = task;
+    this.tasksService.selectedTask = task;
   }
 
   completeTask(task: any) {

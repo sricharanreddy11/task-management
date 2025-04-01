@@ -9,7 +9,7 @@ import { TaskService } from '../tasks/tasks.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [NgFor, KeyValuePipe, LoadingSpinnerComponent],
+  imports: [LoadingSpinnerComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

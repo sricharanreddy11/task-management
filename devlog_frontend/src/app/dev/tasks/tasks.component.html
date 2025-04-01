@@ -1,5 +1,5 @@
 <app-new-task #newTask></app-new-task>
-<app-task #taskDetail [task]="selectedTask"></app-task>
+<app-task #taskDetail [task]="tasksService.selectedTask"></app-task>
 
 <section class="bg-gray-50 my-5 flex items-center dark:bg-gray-900">
   <div class="max-w-screen-xl px-4 mx-auto lg:px-12 w-full">
@@ -49,7 +49,7 @@
       </tr>
     </thead>
     <tbody>
-       @for (task of tasks; track $index) {
+       @for (task of tasksService.tasks; track $index) {
       <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{task.title}}</th>
         <td class="px-6 py-4">{{task.status | statuspipe}}</td>

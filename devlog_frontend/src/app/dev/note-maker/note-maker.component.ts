@@ -1,28 +1,26 @@
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Note } from './note.model';
 import { DevAPIService } from '../dev.service';
+import { NoteService } from './note.service';
 
 
 @Component({
   selector: 'app-note-maker',
   standalone: true,
-  imports: [FormsModule, NgFor, NgIf],
+  imports: [FormsModule, NgFor, NgIf, NgClass],
   templateUrl: './note-maker.component.html',
   styleUrl: './note-maker.component.css',
 })
 export class NoteMakerComponent implements OnInit {
 
-  notes: Note[] = [];
-  selectedNote!: Note;
-
-  constructor(private devAPIService: DevAPIService) {}
+  constructor(private devAPIService: DevAPIService, public noteService: NoteService) {}
 
   ngOnInit(): void {
     this.devAPIService.getAllNotes().subscribe(
       (apiData: Note[]) => {
-        this.notes = apiData;
+        this.noteService.notes = apiData;
       },
       (error) => {
         console.error('Error fetching notes:', error);
@@ -31,7 +29,7 @@ export class NoteMakerComponent implements OnInit {
 
     // Auto-save every 5 minutes
     setInterval(() => {
-      if (this.selectedNote) {
+      if (this.noteService.selectedNote) {
         this.saveNote();
       }
     }, 300000); // 300,000 ms = 5 minutes
@@ -41,7 +39,7 @@ export class NoteMakerComponent implements OnInit {
     const newNote = { title: 'New Note', content: '', tags: [] };
     this.devAPIService.createNote(newNote).subscribe(
       (apiData: Note) => {
-        this.notes.push(apiData);
+        this.noteService.notes.push(apiData);
         this.selectNote(apiData);
       },
       (error) => {
@@ -51,12 +49,12 @@ export class NoteMakerComponent implements OnInit {
   }
 
   selectNote(note: Note) {
-    this.selectedNote = note;
+    this.noteService.selectedNote = note;
   }
 
   saveNote() {
-    if (this.selectedNote) {
-      this.devAPIService.updateNote(this.selectedNote, String(this.selectedNote.id)).subscribe(
+    if (this.noteService.selectedNote) {
+      this.devAPIService.updateNote(this.noteService.selectedNote, String(this.noteService.selectedNote.id)).subscribe(
         (response) => {
           console.log('Note saved:', response);
         },

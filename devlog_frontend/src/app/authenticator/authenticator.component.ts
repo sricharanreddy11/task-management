@@ -7,7 +7,7 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-authenticator',
   standalone: true,
-  imports: [NgIf, NgFor, LoginComponent, RouterOutlet],
+  imports: [RouterOutlet],
   templateUrl: './authenticator.component.html',
   styleUrl: './authenticator.component.css'
 })

@@ -17,29 +17,30 @@
       <ul class="overflow-y-auto">
         <!-- List of notes -->
         <li
-          *ngFor="let note of notes"
-          class="p-4 border-b border-gray-50 hover:bg-gray-100 cursor-pointer dark:border-gray-700 dark:hover:bg-gray-700"
+          *ngFor="let note of this.noteService.notes"
+          class="p-4 border-b border-gray-50 hover:bg-gray-200 cursor-pointer dark:border-gray-700 dark:hover:bg-gray-700"
+          [ngClass]="{ 'bg-gray-200 dark:bg-gray-700': note === noteService.selectedNote }"
           (click)="selectNote(note)"
         >
           <div class="font-semibold">{{ note.title }}</div>
-          <div class="text-sm text-gray-400 dark:text-gray-400">{{ note.content.substring(0, 30) }}...</div>
+          <div class="text-sm text-gray-400 dark:text-gray-400">{{ note.content.substring(0, 30) }}</div>
         </li>
       </ul>
     </div>
   
     <!-- Main Content -->
     <div class="flex-1 p-4 bg-gray-50 text-gray-800 dark:bg-gray-900">
-      <div *ngIf="selectedNote">
+      <div *ngIf="this.noteService.selectedNote">
         <input
           type="text"
-          [(ngModel)]="selectedNote.title"
+          [(ngModel)]="this.noteService.selectedNote.title"
           (blur)="saveNote()"
           class="w-full mb-4 p-2 bg-gray-50 text-gray-800 text-lg font-semibold border-b border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700"
           placeholder="Note Title"
         />
         <textarea 
           contenteditable="true"
-          [(ngModel)]="selectedNote.content"
+          [(ngModel)]="this.noteService.selectedNote.content"
           (blur)="saveNote()"
           class="rich-text-editor w-full p-4 bg-gray-50 text-gray-800 border border-gray-300 rounded-lg shadow-inner overflow-y-auto dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700 scrollbar"
           style="min-height: 500px; max-height: 500px;"

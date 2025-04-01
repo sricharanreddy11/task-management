@@ -15,6 +15,17 @@ export class DevAPIService{
         return this.httpClient.get(this.apiUrl + 'auth/users/current-user/');
     }
 
+    executeCommand(paramsObj?: { [key: string]: any }): Observable<any>{
+        let params = new HttpParams();
+
+        if (paramsObj) {
+            Object.keys(paramsObj).forEach(key => {
+                params = params.set(key, paramsObj[key]);
+            });
+        }
+        return this.httpClient.get(this.apiUrl + 'analytics/command-search', { params });
+    }
+
     getChatbotResponse(paramsObj?: { [key: string]: any }): Observable<any>{
         let params = new HttpParams();
 

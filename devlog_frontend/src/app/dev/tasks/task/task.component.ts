@@ -11,7 +11,7 @@ import { TaskService } from '../tasks.service';
 @Component({
   selector: 'app-task',
   standalone: true,
-  imports: [ModalComponent, FormsModule, NgClass, DatePipe, TitleCasePipe, PriorityPipe, LoadingSpinnerComponent, NgIf, StatusPipe],
+  imports: [ModalComponent, FormsModule, DatePipe, PriorityPipe, LoadingSpinnerComponent, NgIf, StatusPipe],
   templateUrl: './task.component.html',
   styleUrl: './task.component.css',
 })
