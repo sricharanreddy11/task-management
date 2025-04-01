@@ -1,6 +1,7 @@
 import { NgClass, NgIf } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { CommandSearchService } from '../command-search/command-search.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +16,7 @@ export class NavbarComponent {
   @Output() toggle = new EventEmitter();
   @Output() logout = new EventEmitter();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private commandSearchService: CommandSearchService) {}
   
 
   toggleSidebar() {
@@ -25,6 +26,10 @@ export class NavbarComponent {
 
   isActive(route: string): boolean {
     return this.router.url.includes(route);
+  }
+
+  openCommandSearch() {
+    this.commandSearchService.openCommandSearch();
   }
 
   onLogout(){
