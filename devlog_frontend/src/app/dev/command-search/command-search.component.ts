@@ -22,6 +22,7 @@ export class CommandSearchComponent implements OnInit, AfterViewInit, OnDestroy 
   isOpen = false;
   searchQuery: string = '';
   isAuthenticated = false;
+  isLoading = false;
   private subscription: Subscription | undefined;
 
   suggestions: string[] = ['Create a Task ', 'Show Tasks', 'Interact with Assistant', 'Show Projects', 'Check Alerts'];
@@ -99,8 +100,10 @@ export class CommandSearchComponent implements OnInit, AfterViewInit, OnDestroy 
     const paramsObj = { command: this.searchQuery };
 
     // Send query to backend for processing
+    this.isLoading = true;
     this.devAPIService.executeCommand(paramsObj).subscribe(
       (response) => {
+        this.isLoading = false;
         if (response.route) {
           if (response.route === 'unknown') {
             this.closeSearch();
@@ -151,6 +154,7 @@ export class CommandSearchComponent implements OnInit, AfterViewInit, OnDestroy 
         }
       },
       (error) => {
+        this.isLoading = false;
         console.error('Error fetching route:', error);
       }
     );
