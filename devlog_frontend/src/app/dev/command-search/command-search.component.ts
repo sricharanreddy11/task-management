@@ -25,8 +25,14 @@ export class CommandSearchComponent implements OnInit, AfterViewInit, OnDestroy 
   isLoading = false;
   private subscription: Subscription | undefined;
 
-  suggestions: string[] = ['Create a Task ', 'Show Tasks', 'Interact with Assistant', 'Show Projects', 'Check Alerts'];
-
+  suggestions: string[] = [
+    'Create a new task',
+    'Add a note summarizing my tasks',
+    'Navigate to my tasks',
+    'Navigate to my projects',
+    'View alerts',
+    'Interact with the AI assistant',
+  ];
   constructor(
     private router: Router,
     private route: ActivatedRoute,
