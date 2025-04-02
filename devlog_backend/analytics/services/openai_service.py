@@ -1,5 +1,6 @@
 import json
 
+from django.utils.datetime_safe import datetime
 from openai import OpenAI
 from pydantic import BaseModel
 from rest_framework import serializers
@@ -95,10 +96,12 @@ class OpenAIChatbotService(OpenAIService):
         super().__init__()
         self.user_id = user_id
         self.user_data = user_data
+        self.today = datetime.now()
 
     def get_response_for_prompt(self, user_prompt):
 
-        system_prompt = f"You are an AI Chatbot that interacts with a user having data : {self.user_data}"
+        system_prompt = (f"You are an AI Chatbot that interacts with a user having data : {self.user_data}"
+                         f"Current Time: {self.today}")
 
         messages = [
             {"role": "system", "content": system_prompt},
@@ -135,7 +138,7 @@ class OpenAIChatbotService(OpenAIService):
 
     def get_response_for_command_search(self, command):
 
-        system_prompt = """
+        system_prompt = f"""
         You are an AI designed to handle user requests and route them to the appropriate sections of the web application.
          The user will provide a search query or a command, and you will respond with the appropriate route URL for that command.
 
@@ -150,6 +153,8 @@ class OpenAIChatbotService(OpenAIService):
             
             If there is creation intent in the command prompt then it would be for Tasks, Projects, Notes
             return model_type as task, project, note respectively in that key
+            
+            Current Time : {self.today}
             
             If the query doesn't match any of the predefined routes, give route key as 'unknown'
             the format is {'route': The Route fetched, 'creation_intent': "true" or "false",
@@ -206,6 +211,7 @@ class OpenAIChatbotService(OpenAIService):
             system_prompt = f"""
                 Based on the details in the command provided fill the note creation form.
                 Use the details of tasks for summarizing and insight queries: {tasks_dict}
+                Current Time : {self.today}
              """
         else:
             system_prompt = """
