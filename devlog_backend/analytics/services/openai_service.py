@@ -4,9 +4,10 @@ from openai import OpenAI
 from pydantic import BaseModel
 from rest_framework import serializers
 
-from analytics.serializers import OpenAIModelSerializer
+from analytics.serializers import OpenAIModelSerializer, UserTaskSerializer
 from analytics.unit_functions import MODEL_REGISTRY, PYDANTIC_MODEL_REGISTRY, create_object
 from devlog.settings import env
+from task_management.models import Task
 
 
 class OpenAIService:
@@ -197,9 +198,19 @@ class OpenAIChatbotService(OpenAIService):
 
     def create_model_object_from_command(self, command, model_type):
 
-        system_prompt = """
-            Based on the details in the command provided fill the model creation form.
-        """
+        if model_type == 'note':
+            task_objs = Task.objects.all().filter(user_id=self.user_id).prefetch_related(
+                "notes"
+            ).order_by('-id')
+            tasks_dict = UserTaskSerializer(task_objs, many=True).data
+            system_prompt = f"""
+                Based on the details in the command provided fill the note creation form.
+                Use the details of tasks for summarizing and insight queries: {tasks_dict}
+             """
+        else:
+            system_prompt = """
+                Based on the details in the command provided fill the model creation form.
+            """
 
         messages = [
             {"role": "system", "content": system_prompt},
