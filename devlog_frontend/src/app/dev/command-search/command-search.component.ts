@@ -69,7 +69,7 @@ export class CommandSearchComponent implements OnInit, AfterViewInit, OnDestroy 
   // Listen for keyboard shortcuts
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if ((event.metaKey || event.ctrlKey) && event.key === 'b') {
+    if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
       this.checkAuthStatus();
       event.preventDefault();
       this.commandSearchService.toggleCommandSearch();
