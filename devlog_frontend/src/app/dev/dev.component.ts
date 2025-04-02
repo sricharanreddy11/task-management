@@ -3,11 +3,12 @@ import { AuthenticatorService } from '../authenticator/authenticator.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from "./navbar/navbar.component";
 import { NgClass } from '@angular/common';
+import { CommandSearchComponent } from "./command-search/command-search.component";
 
 @Component({
   selector: 'app-dev',
   standalone: true,
-  imports: [NavbarComponent, RouterOutlet, NgClass],
+  imports: [NavbarComponent, RouterOutlet, NgClass, CommandSearchComponent],
   templateUrl: './dev.component.html',
   styleUrl: './dev.component.css'
 })

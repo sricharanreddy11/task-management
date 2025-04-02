@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
     this.devAPIService.getCurrentUser().subscribe(
       apiData =>{
         console.log(apiData)
-        this.currentUserName = apiData.username
+        this.currentUserName = apiData.first_name;
       }
     )
   }
