@@ -1,52 +1,109 @@
 <div class="flex h-screen bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200">
-    <!-- Sidebar -->
-    <div class="w-1/4 bg-gray-50 border-r border-gray-700 dark:bg-gray-800 dark:border-gray-700">
-      <div class="px-4 py-2 flex items-center justify-between bg-gray-50 text-gray-800 dark:text-gray-50 dark:bg-gray-700">
-        <h2 class="text-lg font-semibold">All Notes</h2>
-        <button (click)="addNewNote()" class="text-gray-400 hover:text-gray-300 focus:outline-none">
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
-          </svg>
-        </button>
+  <!-- Sidebar -->
+  <div class="w-64 flex flex-col border-r border-gray-200 dark:border-gray-700">
+    <!-- Header -->
+    <div class="p-4 flex items-center justify-between border-b border-gray-200 dark:border-gray-700">
+      <h2 class="text-xl font-medium">Notes</h2>
+      <button (click)="addNewNote()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Search -->
+    <div class="p-3">
+      <div class="relative">
+        <svg class="absolute left-3 top-2.5 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+        <input
+          type="text"
+          placeholder="Search notes"
+          class="w-full pl-9 pr-3 py-2 bg-gray-100 text-sm rounded-lg border-0 focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:focus:ring-blue-400"
+        />
       </div>
-      <input
-        type="text"
-        placeholder="Search all notes and tags"
-        class="w-full p-2 bg-gray-50 text-gray-800 border-b border-gray-700 placeholder-gray-400 dark:bg-gray-800 dark:border-gray-700"
-      />
-      <ul class="overflow-y-auto">
-        <!-- List of notes -->
+    </div>
+    
+    <!-- Notes List -->
+    <div class="flex-1 overflow-y-auto">
+      <div class="px-3 py-2 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+        All Notes
+      </div>
+      <ul>
         <li
           *ngFor="let note of this.noteService.notes"
-          class="p-4 border-b border-gray-50 hover:bg-gray-200 cursor-pointer dark:border-gray-700 dark:hover:bg-gray-700"
-          [ngClass]="{ 'bg-gray-200 dark:bg-gray-700': note === noteService.selectedNote }"
+          class="mx-2 mb-1 p-3 rounded-lg cursor-pointer transition-colors"
+          [ngClass]="{ 'bg-blue-100 dark:bg-blue-900/30': note === noteService.selectedNote,
+                      'hover:bg-gray-100 dark:hover:bg-gray-800': note !== noteService.selectedNote }"
           (click)="selectNote(note)"
         >
-          <div class="font-semibold">{{ note.title }}</div>
-          <div class="text-sm text-gray-400 dark:text-gray-400">{{ note.content.substring(0, 30) }}</div>
+          <div class="font-medium truncate">{{ note.title || 'Untitled' }}</div>
+          <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 flex items-center justify-between">
+            <span class="truncate">{{ note.content.substring(0, 40) }}</span>
+            <span>{{ note.updated_at | date:'MMM d' }}</span>
+          </div>
         </li>
       </ul>
     </div>
+  </div>
   
-    <!-- Main Content -->
-    <div class="flex-1 p-4 bg-gray-50 text-gray-800 dark:bg-gray-900">
-      <div *ngIf="this.noteService.selectedNote">
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col">
+    <!-- Top Bar -->
+    <div class="h-14 border-b border-gray-200 dark:border-gray-700 px-6 flex items-center justify-between">
+      <div class="flex items-center space-x-4">
+        <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+          <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </button>
+        <span class="text-sm text-gray-500">Saved</span>
+      </div>
+      
+      <div class="flex items-center space-x-2">
+        <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+          <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"></path>
+          </svg>
+        </button>
+        <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+          <svg class="h-5 w-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Editor Area -->
+    <div class="flex-1 overflow-auto">
+      <div *ngIf="this.noteService.selectedNote" class="p-6 max-w-3xl mx-auto">
         <input
           type="text"
           [(ngModel)]="this.noteService.selectedNote.title"
           (blur)="saveNote()"
-          class="w-full mb-4 p-2 bg-gray-50 text-gray-800 text-lg font-semibold border-b border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700"
-          placeholder="Note Title"
+          class="w-full mb-4 p-2 text-3xl font-medium bg-transparent border-0 focus:outline-none focus:ring-0"
+          placeholder="Untitled"
         />
-        <textarea 
-          contenteditable="true"
+        
+        <textarea
           [(ngModel)]="this.noteService.selectedNote.content"
           (blur)="saveNote()"
-          class="rich-text-editor w-full p-4 bg-gray-50 text-gray-800 border border-gray-300 rounded-lg shadow-inner overflow-y-auto dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700 scrollbar"
-          style="min-height: 500px; max-height: 500px;"
-          placeholder="Write your note here..."
+          class="w-full bg-transparent border-0 focus:outline-none focus:ring-0 font-light resize-none"
+          style="min-height: calc(100vh - 220px);"
+          placeholder="Start writing..."
           spellcheck="true"
         ></textarea>
       </div>
+      
+      <div *ngIf="!this.noteService.selectedNote" class="h-full flex items-center justify-center text-gray-400">
+        <div class="text-center">
+          <svg class="h-16 w-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 0L19.5 7.5M17.5 9.5l-8 8-4 1 1-4 8-8z"></path>
+          </svg>
+          <p class="text-lg">Select a note or create a new one</p>
+        </div>
+      </div>
     </div>
-    </div>  
+  </div>
+</div>

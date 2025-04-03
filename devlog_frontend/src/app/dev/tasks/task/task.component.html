@@ -1,102 +1,145 @@
 <app-modal modalHeading="View Task" #modal>
     <div class="max-w-screen-md mx-auto px-6">
-        @if(task) {
-            <div class="bg-white dark:bg-gray-900 rounded-lg p-8">
-                <!-- Task Title -->
-                <div class="flex justify-between items-center">
-                    <h1 *ngIf="!editMode['title']" class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6">{{ task.title }}</h1>
-                    <input *ngIf="editMode['title']" [(ngModel)]="task.title" class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6" />
-                    <button (click)="toggleEdit('title')" class="text-sm text-blue-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
-                                <path d="M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L 14.076172 5.9238281 z"></path>
-                            </svg>
-                    </button>
-                </div>
-
-                <!-- Task Details -->
-                <div class="space-y-4">
-                    <!-- Description -->
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Description</h2>
-                            <p *ngIf="!editMode['description']" class="mt-2 text-gray-700 dark:text-gray-300">{{ task.description }}</p>
-                            <textarea *ngIf="editMode['description']" [(ngModel)]="task.description" class="mt-2 text-gray-700 dark:text-gray-300"></textarea>
-                        </div>
-                        <button (click)="toggleEdit('description')" class="text-sm text-blue-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
-                                <path d="M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L 14.076172 5.9238281 z"></path>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <!-- Due Date -->
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">Due Date</h2>
-                            <p *ngIf="!editMode['due_date']" class="mt-2 text-gray-700 dark:text-gray-300">{{ task.due_date | date:'medium' }}</p>
-                            <input *ngIf="editMode['due_date']" type="date" [(ngModel)]="task.due_date" class="mt-2 text-gray-700 dark:text-gray-300" />
-                        </div>
-                        <button (click)="toggleEdit('due_date')" class="text-sm text-blue-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
-                                <path d="M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L 14.076172 5.9238281 z"></path>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <!-- Priority -->
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center">
-                            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mr-2">Priority:</h2>
-                            <span *ngIf="!editMode['priority']" class="px-3 py-1 text-sm font-medium text-gray-800 dark:text-gray-100 bg-gray-200 dark:bg-gray-700 rounded-lg">
-                                {{ task.priority | prioritypipe }}
-                            </span>
-                            <select *ngIf="editMode['priority']" [(ngModel)]="task.priority" class="mt-2 px-3 py-2 text-sm font-medium text-gray-800 dark:text-gray-100 bg-gray-200 dark:bg-gray-700 rounded-lg">
-                                <option value="low">Low</option>
-                                <option value="medium">Medium</option>
-                                <option value="high">High</option>
-                            </select>
-                        </div>
-                        <button (click)="toggleEdit('priority')" class="text-sm text-blue-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
-                                <path d="M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L 14.076172 5.9238281 z"></path>
-                            </svg>
-                        </button>
-                    </div>
-
-                    <!-- Status -->
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center">
-                            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mr-2">Status: </h2>
-                            <span *ngIf="!editMode['status']" class="px-3 py-1 text-sm font-medium text-gray-800 dark:text-gray-100 bg-gray-200 dark:bg-gray-700 rounded-lg">
-                                {{ task.status | statuspipe }}
-                            </span>
-                            <select *ngIf="editMode['status']" [(ngModel)]="task.status" class="mt-2 px-3 py-2 text-sm font-medium text-gray-800 dark:text-gray-100 bg-gray-200 dark:bg-gray-700 rounded-lg">
-                                <option value="todo">To Do</option>
-                                <option value="in_progress">In Progress</option>
-                                <option value="completed">Completed</option>
-                            </select>
-                        </div>
-                        <button (click)="toggleEdit('status')" class="text-sm text-blue-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 24 24">
-                                <path d="M 18 2 L 15.585938 4.4140625 L 19.585938 8.4140625 L 22 6 L 18 2 z M 14.076172 5.9238281 L 3 17 L 3 21 L 7 21 L 18.076172 9.9238281 L 14.076172 5.9238281 z"></path>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="mt-8 flex justify-end space-x-4">
-                    <button *ngIf="isAnyEditMode()" (click)="saveTask()" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
-                        Save Changes
-                    </button>
-                    <button (click)="updateTask()" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
-                        Update Task
-                    </button>
-                </div>
+      @if(task) {
+        <div class="bg-white dark:bg-gray-900 rounded-lg p-6">
+          <!-- Task Title -->
+          <div class="mb-6 group flex items-center">
+            <h1 *ngIf="!editMode['title']" class="text-2xl font-bold text-gray-900 dark:text-gray-100 flex-grow">
+              {{ task.title }}
+            </h1>
+            <input *ngIf="editMode['title']" [(ngModel)]="task.title" 
+              class="text-2xl font-bold w-full bg-transparent border-b border-blue-500 focus:outline-none text-gray-900 dark:text-gray-100" />
+            <button (click)="toggleEdit('title')" class="ml-2 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" 
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+              </svg>
+            </button>
+          </div>
+  
+          <!-- Due Date -->
+          <div class="mb-4 group flex items-center">
+            <div class="flex items-center flex-grow">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" 
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="mr-2 text-gray-500">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span *ngIf="!editMode['due_date']" class="text-sm text-gray-600 dark:text-gray-400">
+                {{ task.due_date | date:'medium' }}
+              </span>
+              <input *ngIf="editMode['due_date']" type="datetime-local" [(ngModel)]="task.due_date" 
+                class="text-sm bg-transparent border-b border-blue-500 focus:outline-none text-gray-600 dark:text-gray-400" />
             </div>
-        }
-        @else {
-            <app-loading-spinner/>
-        }
+            <button (click)="toggleEdit('due_date')" 
+              class="ml-2 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" 
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+              </svg>
+            </button>
+          </div>
+  
+          <!-- Status -->
+          <div class="mb-4 group flex items-center">
+            <div class="flex items-center flex-grow">
+              <h2 class="text-sm font-medium text-gray-800 dark:text-gray-200 mr-2 w-16">Status:</h2>
+              <span *ngIf="!editMode['status']" 
+                class="px-3 py-1 text-sm font-medium rounded-full"
+                [ngClass]="{
+                  'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-100': task.status === 'todo',
+                  'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100': task.status === 'in_progress',
+                  'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100': task.status === 'completed'
+                }">
+                {{ task.status | statuspipe }}
+              </span>
+              <select *ngIf="editMode['status']" [(ngModel)]="task.status" 
+                class="px-3 py-1 text-sm font-medium rounded-full bg-gray-100 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="todo">To Do</option>
+                <option value="in_progress">In Progress</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+            <button (click)="toggleEdit('status')" 
+              class="ml-2 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" 
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+              </svg>
+            </button>
+          </div>
+  
+          <!-- Priority -->
+          <div class="mb-6 group flex items-center">
+            <div class="flex items-center flex-grow">
+              <h2 class="text-sm font-medium text-gray-800 dark:text-gray-200 mr-2 w-16">Priority:</h2>
+              <span *ngIf="!editMode['priority']" 
+                class="px-3 py-1 text-sm font-medium rounded-full"
+                [ngClass]="{
+                  'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200': task.priority === 'low',
+                  'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-100': task.priority === 'medium',
+                  'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-100': task.priority === 'high'
+                }">
+                {{ task.priority | prioritypipe }}
+              </span>
+              <select *ngIf="editMode['priority']" [(ngModel)]="task.priority" 
+                class="px-3 py-1 text-sm font-medium rounded-full bg-gray-100 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+            <button (click)="toggleEdit('priority')" 
+              class="ml-2 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" 
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+              </svg>
+            </button>
+          </div>
+  
+          <!-- Description -->
+          <div class="group mb-8">
+            <div class="flex items-center mb-2">
+              <h2 class="text-lg font-medium text-gray-800 dark:text-gray-200">Description</h2>
+              <button (click)="toggleEdit('description')" 
+                class="ml-2 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" 
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                </svg>
+              </button>
+            </div>
+            <p *ngIf="!editMode['description']" class="text-gray-700 dark:text-gray-300 whitespace-pre-line">
+              {{ task.description }}
+            </p>
+            <textarea *ngIf="editMode['description']" [(ngModel)]="task.description" 
+              class="w-full p-2 text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 rounded-md border border-gray-300 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[100px]">
+            </textarea>
+          </div>
+  
+          <!-- Action Buttons -->
+          <div class="flex justify-end space-x-3">
+            <button *ngIf="isAnyEditMode()" (click)="saveTask()" 
+              class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+              Save Changes
+            </button>
+            <button (click)="updateTask()" 
+              class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
+              Update Task
+            </button>
+            <button (click)="modal.closeModal()" 
+              class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors">
+              Close
+            </button>
+          </div>
+        </div>
+      }
+      @else {
+        <app-loading-spinner/>
+      }
     </div>
-</app-modal>
+  </app-modal>

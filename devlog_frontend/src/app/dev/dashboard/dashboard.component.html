@@ -1,66 +1,73 @@
 @if (currentUserName) {
-  <div class="bg-white dark:bg-gray-800 my-4 p-4 rounded-lg shadow w-1/2 mx-auto text-center">
-    <h2 class="text-xl font-bold mb-2 dark:text-white">Hi, {{ currentUserName }}!</h2>
-    <p class="text-gray-600 dark:text-gray-300">Welcome back!</p>
+  <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 my-6 p-6 rounded-xl shadow-lg w-2/3 mx-auto text-center border-l-4 border-blue-500 dark:border-blue-400">
+    <h2 class="text-2xl font-bold mb-2 text-blue-800 dark:text-blue-300">Hi, {{ currentUserName }}!</h2>
+    <p class="text-gray-600 dark:text-gray-300">Welcome</p>
   </div>
 }
-
 
 @if(taskCountData){
   <!-- Task Summary Data Section -->
-<div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow my-10">
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg my-10 border border-gray-100 dark:border-gray-700">
+    <h2 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200 text-center">Task Overview</h2>
     
-    <!-- Total Tasks -->
-    <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow">
-      <h3 class="text-lg font-semibold dark:text-white">All Tasks</h3>
-      <p class="text-2xl font-bold dark:text-gray-300">{{taskCountData.all_tasks}}</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Total Tasks -->
+      <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-gray-700 dark:to-gray-800 p-5 rounded-xl shadow-md border-l-4 border-blue-400">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">All Tasks</h3>
+        <p class="text-3xl font-bold text-blue-600 dark:text-blue-300 mt-2">{{taskCountData.all_tasks}}</p>
+      </div>
+      
+      <!-- Completed Tasks -->
+      <div class="bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-700 dark:to-gray-800 p-5 rounded-xl shadow-md border-l-4 border-green-400">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Completed</h3>
+        <p class="text-3xl font-bold text-green-600 dark:text-green-300 mt-2">{{taskCountData.completed_tasks}}</p>
+      </div>
+      
+      <!-- High Priority Open Tasks -->
+      <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-gray-700 dark:to-gray-800 p-5 rounded-xl shadow-md border-l-4 border-red-400">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">High Priority</h3>
+        <p class="text-3xl font-bold text-red-600 dark:text-red-300 mt-2">{{taskCountData.high_priority_open_tasks}}</p>
+      </div>
+      
+      <!-- To-Do Tasks -->
+      <div class="bg-gradient-to-br from-amber-50 to-amber-100 dark:from-gray-700 dark:to-gray-800 p-5 rounded-xl shadow-md border-l-4 border-amber-400">
+        <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">To-Do</h3>
+        <p class="text-3xl font-bold text-amber-600 dark:text-amber-300 mt-2">{{taskCountData.todo_tasks}}</p>
+      </div>
     </div>
-
-    <!-- Completed Tasks -->
-    <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow">
-      <h3 class="text-lg font-semibold dark:text-white">Completed Tasks</h3>
-      <p class="text-2xl font-bold dark:text-gray-300">{{taskCountData.completed_tasks}}</p>
-    </div>
-    
-    <!-- High Priority Open Tasks -->
-    <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow">
-      <h3 class="text-lg font-semibold dark:text-white">High Priority Open Tasks</h3>
-      <p class="text-2xl font-bold dark:text-gray-300">{{taskCountData.high_priority_open_tasks}}</p>
-    </div>
-
-    <!-- To-Do Tasks -->
-    <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg shadow">
-      <h3 class="text-lg font-semibold dark:text-white">To-Do Tasks</h3>
-      <p class="text-2xl font-bold dark:text-gray-300">{{taskCountData.todo_tasks}}</p>
-    </div>
-
   </div>
-</div>
 }
 @else {
-  <app-loading-spinner/>
+  <div class="flex justify-center py-12">
+    <app-loading-spinner class="w-12 h-12 text-blue-500"/>
+  </div>
 }
 
-  <div class="bg-white dark:bg-gray-800 my-10 p-4 rounded-lg shadow w-1/2 mx-auto">
-    <h2 class="text-xl font-bold mb-4 text-center dark:text-white">Tasks Due in Upcoming Week</h2>
+<div class="bg-white dark:bg-gray-800 my-10 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
+  <h2 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200 text-center">Tasks Due in Upcoming Week</h2>
+  <div class="flex justify-center">
+    <div class="w-full max-w-2xl">
+      <canvas id="myChart3" class="drop-shadow-md"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
+    <h2 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200 text-center">Tasks Added Past Week</h2>
     <div class="flex justify-center">
-      <canvas id="myChart3"></canvas>
+      <div class="w-full">
+        <canvas id="myChart1" class="drop-shadow-md"></canvas>
+      </div>
     </div>
   </div>
   
-  <div class="flex space-x-4">
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow w-1/2">
-      <h2 class="text-xl font-bold mb-4 dark:text-white">Tasks Added Past Week</h2>
-      <div class="flex justify-center">
-        <canvas id="myChart1"></canvas>
-      </div>
-    </div>
-    
-    <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow w-1/2">
-      <h2 class="text-xl font-bold mb-4 dark:text-white">Tasks Completed Past Week</h2>
-      <div class="flex justify-center">
-        <canvas id="myChart2"></canvas>
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
+    <h2 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200 text-center">Tasks Completed Past Week</h2>
+    <div class="flex justify-center">
+      <div class="w-full">
+        <canvas id="myChart2" class="drop-shadow-md"></canvas>
       </div>
     </div>
   </div>
+</div>

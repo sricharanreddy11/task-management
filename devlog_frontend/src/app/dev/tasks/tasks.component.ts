@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { DevAPIService } from '../dev.service';
 import { NewTaskComponent } from "./new-task/new-task.component";
-import { DatePipe } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { TaskComponent } from "./task/task.component";
 import { StatusPipe } from "./status.pipe";
 import { PriorityPipe } from "./priority.pipe";

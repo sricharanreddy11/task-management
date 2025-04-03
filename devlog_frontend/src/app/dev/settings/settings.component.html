@@ -1,7 +1,11 @@
 <div class="p-4">
   <h2 class="text-lg font-semibold mb-4">Settings</h2>
   <label class="flex items-center">
-    <input type="checkbox" [checked]="darkMode" (change)="toggleDarkMode()" />
+    <label class="relative inline-block w-14 h-8">
+      <input type="checkbox" class="sr-only peer" [checked]="darkMode" (change)="toggleDarkMode()" />
+      <div class="w-full h-full bg-gray-300 peer-checked:bg-blue-600 rounded-full transition duration-300"></div>
+      <div class="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transform peer-checked:translate-x-6 transition duration-300"></div>
+    </label>
     <span class="ml-2">Dark Mode</span>
   </label>
 </div>

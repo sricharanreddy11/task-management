@@ -32,6 +32,7 @@ export class DashboardComponent implements OnInit {
     this.devAPIService.getCurrentUser().subscribe(
       apiData =>{
         console.log(apiData)
+        localStorage.setItem('userName', apiData.first_name);
         this.currentUserName = apiData.first_name;
       }
     )

@@ -1,50 +1,144 @@
-<div class="flex h-full bg-gray-50 dark:bg-gray-900">
-  
-    <!-- Project Details -->
-    <div class="flex-1 p-6 border-r border-gray-200 dark:border-gray-700 shadow-lg bg-white dark:bg-gray-800">
-      <h2 class="text-3xl font-bold mb-4 text-blue-600 dark:text-blue-400">Project Details</h2>
-          <!-- Sidebar Back Link -->
-        <div class="my-5">
-        <a [routerLink]="['/dev/projects']" routerLinkActive="router-link-active"  class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to List
-        </a>
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header with Back Link -->
+    <div class="flex items-center justify-between mb-6">
+      <a [routerLink]="['/dev/projects']" routerLinkActive="router-link-active" 
+         class="flex items-center text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Back to Projects
+      </a>
+      
+      <!-- Action Buttons -->
+      <!-- <div class="flex gap-3">
+        <button class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+          Edit Project
+        </button>
+        <button class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+          Add Task
+        </button>
+      </div> -->
+    </div>
+    
+    <!-- Project Overview Card -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md mb-6 overflow-hidden">
+      <div class="p-6">
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">{{ project.name }}</h1>
+        
+        <!-- Timeline and Progress -->
+        <div class="flex flex-wrap gap-6 mt-4 mb-6">
+          <div class="flex items-center">
+            <div class="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center mr-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Timeline</p>
+              <p class="font-medium text-gray-800 dark:text-gray-200">
+                {{ project.start_date | date }} - {{ project.end_date | date }}
+              </p>
+            </div>
+          </div>
+          
+          <div class="flex items-center">
+            <div class="h-10 w-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center mr-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500 dark:text-gray-400">Progress</p>
+              <div class="mt-1 h-2 w-32 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                <div class="bg-green-500 h-2 rounded-full" [style.width.%]="getProgressPercentage()"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Description Section -->
+        <div class="mt-6">
+          <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Description</h2>
+          <p class="text-gray-600 dark:text-gray-400">{{ project.description }}</p>
+        </div>
       </div>
-      <div class="p-6 border-r border-gray-200 dark:border-gray-700 shadow-lg bg-white dark:bg-gray-800 rounded-lg">
-
-        <!-- Project Name -->
-        <p class="text-2xl font-bold text-gray-800 dark:text-gray-300 mb-4">{{ project.name }}</p>
-      
-        <!-- Project Description -->
-        <h3 class="text-lg mb-2">Description</h3>
-        <p class="text-gray-600 dark:text-gray-400 mb-6">{{ project.description }}</p>
-      
-        <!-- Project Dates -->
-        <div>
-          <h3 class="text-lg mb-2">Timeline</h3>
-          <p class="text-gray-700 dark:text-gray-400">Start Date: <span class="font-medium">{{ project.start_date | date }}</span></p>
-          <p class="text-gray-700 dark:text-gray-400">End Date: <span class="font-medium">{{ project.end_date | date }}</span></p>
+    </div>
+    
+    <!-- Tasks Section -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+      <div class="border-b border-gray-200 dark:border-gray-700 p-6">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Tasks</h2>
         </div>
       </div>
       
-    </div>
-  
-    <!-- Tasks Section -->
-    <div class="flex-1 p-6 bg-white dark:bg-gray-800 shadow-lg">
-      <h2 class="text-3xl font-bold mb-4 text-blue-600 dark:text-blue-400">Tasks</h2>
-      <ul class="space-y-4 max-h-[calc(100vh-150px)] custom-scrollbar">
-        <li *ngFor="let task of project.tasks" class="border border-gray-200 dark:border-gray-700 p-4 rounded-lg transform transition-transform duration-300 hover:scale-105 bg-gray-100 dark:bg-gray-700">
-          <h3 class="text-xl font-semibold mb-2 text-indigo-600 dark:text-indigo-400">{{ task.title }}</h3>
-          <p class="text-gray-700 dark:text-gray-300">{{ task.description }}</p>
-          <div class="mt-4">
-            <p class="text-gray-700 dark:text-gray-300">Due Date: {{ task.due_date | date }}</p>
-            <p class="text-gray-700 dark:text-gray-300">Status: {{ task.status | statuspipe }}</p>
-            <p class="text-gray-700 dark:text-gray-300">Priority: {{ task.priority | prioritypipe }}</p>
+      <!-- Task List -->
+      <div class="px-6 pb-6">
+        <div class="grid gap-4 mt-4 max-h-96 overflow-y-auto custom-scrollbar">
+          <div *ngFor="let task of project.tasks" 
+               class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-750 hover:shadow-md transition-shadow">
+            <div class="flex items-start justify-between">
+              <div class="flex-1">
+                <div class="flex items-center mb-2">
+                  <!-- Status indicator -->
+                  <span class="h-2.5 w-2.5 rounded-full mr-2"
+                        [ngClass]="{
+                          'bg-yellow-500': task.status === 'in_progress',
+                          'bg-green-500': task.status === 'completed',
+                          'bg-gray-400': task.status === 'not_started'
+                        }"></span>
+                  <h3 class="text-lg font-medium text-gray-800 dark:text-white">{{ task.title }}</h3>
+                  
+                  <!-- Priority badge -->
+                  <span class="ml-3 px-2 py-1 text-xs rounded-full"
+                        [ngClass]="{
+                          'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200': task.priority === 'high',
+                          'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200': task.priority === 'medium',
+                          'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200': task.priority === 'low'
+                        }">
+                    {{ task.priority | titlecase }}
+                  </span>
+                </div>
+                
+                <p class="text-gray-600 dark:text-gray-400 mb-3">{{ task.description }}</p>
+                
+                <div class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  Due: {{ task.due_date | date }}
+                </div>
+              </div>
+              
+              <!-- Task actions -->
+              <!-- <div class="flex">
+                <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  </svg>
+                </button>
+                <button class="text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 ml-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div> -->
+            </div>
           </div>
-        </li>
-      </ul>
+        </div>
+        
+        <!-- Empty state for when there are no tasks -->
+        <div *ngIf="project.tasks?.length === 0" class="flex flex-col items-center justify-center py-12">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-300 dark:text-gray-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+          <p class="text-gray-500 dark:text-gray-400">No tasks created for this project yet</p>
+          <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+            Add First Task
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-  
+</div>

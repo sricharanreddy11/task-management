@@ -1,4 +1,4 @@
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { DatePipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, HostListener, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Note } from './note.model';
@@ -9,7 +9,7 @@ import { NoteService } from './note.service';
 @Component({
   selector: 'app-note-maker',
   standalone: true,
-  imports: [FormsModule, NgFor, NgIf, NgClass],
+  imports: [FormsModule, NgFor, NgIf, NgClass, DatePipe],
   templateUrl: './note-maker.component.html',
   styleUrl: './note-maker.component.css',
 })
