@@ -20,11 +20,13 @@ from authenticator import urls as auth_urls
 from note_management.urls import urlpatterns as notes_urls
 from task_management.urls import urlpatterns as tasks_urls
 from analytics.urls import urlpatterns as analytics_urls
+from echo.urls import urlpatterns as echo_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include(auth_urls)),
     path('log/', include(notes_urls)),
     path('track/', include(tasks_urls)),
-    path('analytics/', include(analytics_urls))
+    path('analytics/', include(analytics_urls)),
+    path('echo/', include(echo_urls))
 ]

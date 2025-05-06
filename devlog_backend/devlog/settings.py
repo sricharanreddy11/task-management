@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 
 import dj_database_url
@@ -65,6 +66,7 @@ INSTALLED_APPS = [
     'note_management',
     'task_management',
     'analytics',
+    'echo'
 ]
 
 MIDDLEWARE = [
@@ -181,6 +183,9 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
 
 
@@ -188,6 +193,13 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 )
+
+SIMPLE_JWT = {
+              "ACCESS_TOKEN_LIFETIME": timedelta(days=10),
+              "UPDATE_LAST_LOGIN": True,
+              "TOKEN_OBTAIN_SERIALIZER": 'AdjAuthenticator.serializers.CustomTokenSerializer'
+              }
+
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
